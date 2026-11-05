@@ -1,9 +1,10 @@
 # RECIPE: Rathnaweera Foreign Employment Agency home page (staging)
 Kind: website
-Live: not published yet. Planned staging address https://businessboosterlk.github.io/rathnaweera-website/ waits for Thulaib's yes to a public repo and Pages (bb_pending, source RATHNAWEERA WEBSITE 3)
+Live: https://businessboosterlk.github.io/rathnaweera-website/ (staging preview, noindex, public repo https://github.com/businessboosterlk/rathnaweera-website, published 5 Nov 2026 on Thulaib's yes, bb_pending 1318)
+Live commit: 745efd9
 Ignore: dist, node_modules, .astro, package-lock.json
 Watch: ~/Downloads/RATHNAWEERA-BRAND/Rathnaweera-Logo.png
-Last verified: 2026-11-05, by chat RATHNAWEERA WEBSITE 3
+Last verified: 2026-11-05, by chat RATHNAWEERA WEBSITE 4 (live gates on the published address)
 
 Checked by `python3 ~/bb-systems/qa/recipe-check.py ~/bb-websites/rathnaweera-website`. A fresh chat rebuilds from
 this file alone.
@@ -20,7 +21,8 @@ every sample job carries a SAMPLE label. The word "licensed" and the Check it li
 register shows no Rathnaweera (bb_pending 1255). Not yet approved by Thulaib: this is the first preview.
 
 ## 2. Where the source lives
-- The true copy: `~/bb-websites/rathnaweera-website`, its own git repo, branch main. No GitHub remote yet.
+- The true copy: `~/bb-websites/rathnaweera-website`, its own git repo, branch main, pushed to the public repo
+  https://github.com/businessboosterlk/rathnaweera-website (origin).
 - Brief and storyboard: `~/Downloads/RATHNAWEERA-WEBSITE/handoff-clear-assurance` (BB-BUILD-BRIEF.md wins, then
   START-HERE-CLAUDE.md, the storyboard PDF, ASSET-INDEX.md).
 - The seal: the REPAIRED one at `~/Downloads/RATHNAWEERA-BRAND/Rathnaweera-Logo.png`. Never the handoff's
@@ -55,8 +57,11 @@ node ~/bb-systems/qa/hand-svg.mjs . --allow lib/icon.js=1
 house_style runs on the rendered words, never on the raw HTML: the inline CSS says color and center.
 Counts on 5 Nov 2026: check-dist 17 of 17, check-site 113 of 113 (57 touchpoints at phone and at desk), stack PASS
 astro, hand-svg PASS, device-views PASS, speed PASS 12 of 12 on the local preview (page to page had nothing to
-press), house_style 8 of 8 on the rendered text. Speed must be run again on the live address once it exists. Then
-look at the first screen and one scroll on the iOS Simulator (iPhone 17) and at 1440x900.
+press), house_style 8 of 8 on the rendered text. Live on 5 Nov 2026 at 745efd9: speed PASS 12 of 12 (slow 4G phone,
+first paint and main content 767 ms, page 128 KB, JS 4 KB, layout shift 0.003, reload 223 ms and 0 KB, worst tap 52 ms),
+device-views PASS (phone heading middle 201.0 of 201, desk brand and heading at x=100), check-site 113 of 113, robots
+meta noindex and robots.txt Disallow all. iOS Simulator (iPhone 17) first screen and one scroll looked right. Then
+look at the first screen and one scroll on the iOS Simulator (iPhone 17) and at 1440x900 after every change.
 
 ## 5. Deliver or deploy
 Only after Thulaib says yes to a public repo and GitHub Pages.
@@ -68,7 +73,9 @@ gh run watch --repo businessboosterlk/rathnaweera-website
 node ~/bb-systems/qa/speed.mjs https://businessboosterlk.github.io/rathnaweera-website/
 ```
 The workflow `.github/workflows/deploy.yml` builds with SITE_URL and BASE_PATH and runs the same gates, so a build
-that fails a gate never deploys. At launch on the agency's own domain: BASE_PATH '/', open ROBOTS in src/config.js
+that fails a gate never deploys. On a new repo the push run's deploy job fails with a 404 because Pages is not on
+yet: turn Pages on, then `gh run rerun <run id>`. GitHub Pages caches each file for ten minutes (max-age=600).
+A commit that changes only RECIPE.md is pushed with [skip ci], so the Live commit stays the build that passed. At launch on the agency's own domain: BASE_PATH '/', open ROBOTS in src/config.js
 and robots.txt. The agency holds the hosting, the domain and any form service in its own name. BB provides none.
 
 ## 6. Finishing touches
