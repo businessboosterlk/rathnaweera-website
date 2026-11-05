@@ -29,7 +29,7 @@ brand's left edge (Thulaib's review, 5 Nov 2026). `device-views.mjs` reads both.
 Every fact the agency has not given (licence, phones, fees, salaries, years, counts, timelines) is a gold dashed
 placeholder and every sample carries a SAMPLE label. Every picture not yet supplied shows a stand in plate with the
 file name to send, and every real photo owed shows a PHOTO NEEDED frame. The word "licensed" and the Check it link
-are staging only because the SLBFE register shows no Rathnaweera (bb_pending 1255). Not yet approved by Thulaib.
+are staging only because the SLBFE register shows no Rathnaweera (bb_pending 1255). Thulaib looked at build 8eb1c17 on 5 Nov 2026 and said it is good to show Janaka (bb_pending 1356).
 
 ## 2. Where the source lives
 - The true copy: `~/bb-websites/rathnaweera-website`, its own git repo, branch main, pushed to the public repo
