@@ -1,0 +1,58 @@
+/* TRUST STRIP (prefix ts-). The band rises over the hero's foot; the warm ground starts where the hero ends.
+   Every box centres its words both ways with equal padding and no stray margins: a check measures it to 1px. */
+.ts{--ov:56px;position:relative;z-index:3;margin-top:calc(var(--ov) * -1);padding-bottom:var(--pad)}
+.ts::before{content:"";position:absolute;inset:var(--ov) 0 0;background:var(--warm);z-index:-1}
+.ts-band{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(200,152,42,.32);border-radius:var(--r);overflow:hidden;
+  box-shadow:0 2px 4px rgba(0,26,61,.1),0 24px 50px -18px rgba(0,26,61,.38)}
+.ts-box{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;min-height:132px;padding:22px 12px;text-align:center;background:var(--navy);color:#fff}
+/* the first box carries an underlined link: the line hangs under the words, so the box lifts them 2px and the ink, line included, sits centred */
+.ts-box:has(.ts-link){padding-bottom:26px}
+.ts-box > p{margin:0;text-box:trim-both cap alphabetic}   /* boxes hug the ink, so box centre and ink centre agree */
+/* browsers that do not know text-box yet get the same trim from the fonts' own measures (Caslon at 1.2, Inter at 1.4) */
+@supports not (text-box:trim-both cap alphabetic){
+  .ts-box > p:not(:has(> .ph))::before,.ts-box > p:not(:has(> .ph))::after{content:"";display:table}
+  .ts-fact:not(:has(> .ph))::before{margin-bottom:-.185em}
+  .ts-fact:not(:has(> .ph))::after{margin-top:-.245em}
+  .ts-label::before{margin-bottom:-.337em}
+  .ts-label::after{margin-top:-.336em}
+}
+.ts-fact{font:400 22px/1.2 var(--display);letter-spacing:-.01em;color:#fff}
+.ts-fact .ph{font:500 14px/1.45 var(--body);letter-spacing:0;color:var(--gold-soft);border-color:rgba(200,152,42,.9);padding:2px 7px;display:inline-block;max-width:100%;vertical-align:top}
+.ts-fact:has(> .ph){display:flex}
+/* a label whose p hangs a solid stem under the line reads low by ink: its box lifts the words 1px */
+.ts-box:has(.ts-hang){padding-bottom:24px}
+/* Caslon's f, l and d stand taller than its capitals: a worded fact is set 0.75px lower so its ink, not its capital line, sits centred */
+.ts-fact:not(:has(> .ph)){padding-top:1.5px}
+.ts-label{font-size:13px;line-height:1.4;color:rgba(232,237,244,.78)}
+.ts-link{color:#fff;font-weight:600;text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:3px;white-space:nowrap;position:relative;transition:color .2s}
+.ts-link::after{content:"";position:absolute;inset:-14px -6px}
+.ts-link .ic{width:.9em;height:.9em;margin-left:3px;vertical-align:-.1em}
+@media (hover:hover){.ts-link:hover{color:var(--gold-soft)}}
+
+.ts-photo{margin:clamp(40px,5vw,72px) 0 0}
+.ts-frame{position:relative;aspect-ratio:16/9;border-radius:var(--r);overflow:hidden;background:var(--paper)}
+.ts-frame .shot{transition:transform 1.2s var(--ease)}
+/* until the office photo arrives the frame is a short, clearly marked slot, not a tall empty box */
+.ts-frame:has(.shot-need){aspect-ratio:16/8}
+.ts .shot-need{gap:12px}
+.ts .shot-need .ic{width:30px;height:30px}
+.ts .shot-need span{font:400 clamp(17px,1.6vw,22px)/1.35 var(--display);letter-spacing:0;color:var(--navy);max-width:20em;text-wrap:balance}
+@media (hover:hover){.ts-photo:hover .ts-frame img.shot{transform:scale(1.04)}}
+.ts-cap{display:flex;align-items:center;gap:8px;margin-top:14px;font-size:14px;font-weight:500;color:var(--muted)}
+.ts-cap .ic{color:var(--gold)}
+
+@media (min-width:760px){
+  .ts-band{grid-template-columns:repeat(4,1fr)}
+  .ts-box{min-height:168px;padding:28px 20px;gap:15px}
+  .ts-box:has(.ts-link){padding-bottom:32px}
+  .ts-box:has(.ts-hang){padding-bottom:30px}
+  .ts-fact{font-size:clamp(26px,2.3vw,36px)}
+  .ts-label{font-size:14px}
+  .ts-fact .ph{font-size:clamp(15px,1.25vw,18px)}
+}
+@media (min-width:1100px){
+  .ts{--ov:84px}
+  .ts-box{min-height:188px}
+  .ts-frame{aspect-ratio:21/9}
+  .ts-frame:has(.shot-need){aspect-ratio:32/7}
+}

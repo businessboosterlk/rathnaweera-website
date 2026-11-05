@@ -12,7 +12,6 @@ export default defineConfig({
   trailingSlash: 'ignore',
   build: { format: 'directory', assets: 'assets/app', inlineStylesheets: 'always' },
   devToolbar: { enabled: false },
-  prefetch: { prefetchAll: true, defaultStrategy: 'viewport' },
   image: { responsiveStyles: false },
   vite: { build: { cssCodeSplit: false, assetsInlineLimit: 0 } },
 });

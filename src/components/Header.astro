@@ -1,0 +1,62 @@
+---
+// The shell's top: the staging line, the navy top line (licence, the three numbers, the language switch that
+// waits for a decision), the main bar (seal and name on the frame's left edge, the red Apply on its right edge)
+// and the phone menu. Gates rely on: `header .brand img` (the seal), .site-head, .topline, #menu,
+// [data-menu-open] and [data-menu-close]. The brand links to #top, which has no element, so it means the very top.
+import { Picture } from 'astro:assets';
+import Icon from './Icon.astro';
+import Ph from './Ph.astro';
+import { SITE, STAGING } from '../config.js';
+import { img } from '../lib/img.js';
+import '../styles/header.css';
+const seal = img('seal');
+const phones = ['Landline', 'Mobile 1', 'Mobile 2'];
+const links = [['#jobs', 'Jobs'], ['#help', 'Help'], ['#about', 'About'], ['#contact', 'Contact']];
+---
+{STAGING && <p class="staging">Staging preview. Facts in gold dashed boxes wait for the agency. SAMPLE jobs are not live vacancies.</p>}
+
+<div class="topline hd-top frame">
+  <p class="hd-lic"><Icon name="shield" /><span>SLBFE licence <Ph t="SLBFE licence no." /></span> <a class="hd-check" href={SITE.registerUrl} target="_blank" rel="noopener">Check it<Icon name="external" /></a></p>
+  <div class="hd-right">
+    <p class="hd-nums"><span>Our only numbers</span> {phones.map(l => <Ph t={l} />)}</p>
+    <div class="hd-langs" role="group" aria-label="Language switch, not active yet">
+      <span class="hd-lang" aria-hidden="true">English</span><span class="hd-lang" lang="si" aria-hidden="true">සිංහල</span><span class="hd-lang" lang="ta" aria-hidden="true">தமிழ்</span>
+      <span class="hd-wait">waits for the decision on languages</span>
+    </div>
+  </div>
+</div>
+
+<header class="site-head hd-bar frame" data-hd>
+  <a class="brand hd-brand" href="#top" aria-label="Rathnaweera Foreign Employment Agency, back to top">
+    {seal && <Picture src={seal} formats={['avif']} fallbackFormat="webp" widths={[96, 192]} sizes="(min-width: 1100px) 58px, 46px" alt="Rathnaweera Foreign Employment Agency seal" loading="eager" class="hd-seal" />}
+    <span class="brand-name hd-name">Rathnaweera<span>Foreign Employment Agency</span></span>
+  </a>
+  <nav class="hd-nav" aria-label="Main">
+    {links.map(([h, t]) => <a class="hd-link" href={h}>{t}</a>)}
+  </nav>
+  <a class="btn hd-apply" href="#apply">Apply<Icon name="arrow" /></a>
+  <button class="hd-menu-btn" type="button" aria-expanded="false" aria-controls="menu" data-menu-open><Icon name="menu" /><span>Menu</span></button>
+</header>
+
+<div class="menu hd-menu" id="menu" hidden role="dialog" aria-modal="true" aria-label="Menu">
+  <div class="hd-menu-top frame">
+    <span class="hd-name">Rathnaweera<span>Foreign Employment Agency</span></span>
+    <button class="hd-menu-btn" type="button" data-menu-close aria-label="Close the menu"><Icon name="close" /><span>Close</span></button>
+  </div>
+  <nav class="hd-menu-links frame" aria-label="Menu">
+    {links.map(([h, t], i) => <a class="hd-menu-link" href={h} style={`--i:${i}`}><span>{t}</span><Icon name="arrow" /></a>)}
+    <a class="btn hd-menu-apply" href="#apply" style="--i:4">Apply<Icon name="arrow" /></a>
+    <div class="hd-menu-foot" style="--i:5">
+      <p class="hd-menu-nums">Our only numbers: {phones.map(l => <Ph t={l} />)}</p>
+      <p class="hd-menu-lic"><Icon name="shield" />SLBFE licence <Ph t="SLBFE licence no." /></p>
+      <div class="hd-langs" role="group" aria-label="Language switch, not active yet">
+        <span class="hd-lang" aria-hidden="true">English</span><span class="hd-lang" lang="si" aria-hidden="true">සිංහල</span><span class="hd-lang" lang="ta" aria-hidden="true">தமிழ்</span>
+        <span class="hd-wait">waits for the decision on languages</span>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<script>
+  import '../scripts/header.js';
+</script>

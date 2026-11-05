@@ -1,0 +1,69 @@
+/* HEADER (prefix hd-). Top line, the main bar and the phone menu. */
+.hd-top{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:36px;padding-block:7px;background:var(--deep);color:#e8edf4;font-size:12px;line-height:1.4}
+.hd-top p{margin:0}
+.hd-top .ph{border-color:rgba(200,152,42,.85);color:#fff}
+.hd-lic{display:flex;align-items:center;flex-wrap:wrap;gap:4px 8px}
+.hd-lic > .ic{color:var(--gold);width:14px;height:14px}
+.hd-check{display:inline-flex;align-items:center;gap:4px;color:#fff;font-weight:600;text-decoration:underline;text-decoration-color:rgba(200,152,42,.9);text-underline-offset:3px;padding:6px 0;margin:-6px 0;transition:color .2s}
+.hd-check .ic{width:12px;height:12px}
+.hd-right{display:none}
+.hd-langs{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+.hd-lang{display:inline-flex;align-items:center;height:24px;padding:0 9px;border-radius:6px;border:1px dashed rgba(200,152,42,.7);font-size:11.5px;font-weight:600;letter-spacing:.01em;opacity:.85}
+.hd-lang:first-child{border-style:solid;opacity:1}
+.hd-wait{font-size:11px;opacity:.7}
+
+/* The main bar */
+.hd-bar{position:relative;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px;background:var(--paper);border-bottom:1px solid var(--line)}
+.hd-brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--navy);min-width:0}
+.hd-brand picture{display:block;flex:none}
+.hd-seal{display:block;width:46px;height:auto;flex:none}
+.hd-name{font:400 20px/1.05 var(--display);color:var(--navy);display:flex;flex-direction:column;letter-spacing:-.01em}
+.hd-name span{font:500 11px/1.3 var(--body);color:var(--muted);margin-top:4px;letter-spacing:.01em}
+.hd-nav,.hd-apply{display:none}
+.hd-menu-btn{display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:0 16px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--paper);color:var(--navy);font:600 15px/1 var(--body);cursor:pointer;transition:transform .14s var(--ease),border-color .2s,background-color .2s}
+.hd-menu-btn:active{transform:scale(.97);background:var(--warm)}
+
+/* The phone menu. It stays in the layout while hidden so it can fade out; [hidden] still takes it from the
+   page for touch, focus and screen readers (visibility), and the menu's own state is the hidden attribute. */
+.hd-menu{position:fixed;inset:0;z-index:70;display:block;background:var(--paper);padding-top:var(--sat);padding-bottom:var(--sab);overflow-y:auto;overscroll-behavior:contain;
+  opacity:1;visibility:visible;transition:opacity .32s var(--ease)}
+.hd-menu[hidden]{display:block;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s var(--ease),visibility 0s linear .2s}
+.hd-menu-top{display:flex;align-items:center;justify-content:space-between;padding-block:14px;border-bottom:1px solid var(--line)}
+.hd-menu-links{display:flex;flex-direction:column;padding-block:12px 32px}
+.hd-menu-link{display:flex;align-items:center;justify-content:space-between;min-height:68px;font:400 32px/1.1 var(--display);letter-spacing:-.015em;color:var(--navy);text-decoration:none;border-bottom:1px solid var(--line)}
+.hd-menu-link .ic{width:22px;height:22px;color:var(--gold);transition:transform .3s var(--ease)}
+.hd-menu-link:active .ic{transform:translateX(4px)}
+.hd-menu-apply{margin-top:28px;width:100%}
+.hd-menu-foot{margin-top:28px;display:grid;gap:14px;color:var(--muted);font-size:14px}
+.hd-menu-foot p{margin:0;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.hd-menu-lic .ic{color:var(--gold)}
+.hd-menu-foot .hd-lang{color:var(--navy);opacity:1}
+.hd-menu-foot .hd-wait{font-size:12px;opacity:1}
+/* Staggered entrance as the menu opens */
+.hd-menu-link,.hd-menu-apply,.hd-menu-foot{opacity:0;transform:translate3d(0,18px,0);transition:opacity .45s var(--ease),transform .6s var(--ease)}
+.hd-menu:not([hidden]) :is(.hd-menu-link,.hd-menu-apply,.hd-menu-foot){opacity:1;transform:none;transition-delay:calc(70ms + var(--i,0) * 55ms)}
+body.menu-open{overflow:hidden}
+
+/* DESK */
+@media (min-width:1100px){
+  .hd-top{min-height:38px}
+  .hd-right{display:flex;align-items:center;gap:22px}
+  .hd-nums{display:flex;align-items:center;gap:8px}
+  .hd-nums > span{opacity:.75}
+  .hd-langs{padding-left:22px;border-left:1px solid rgba(255,255,255,.18)}
+  .hd-bar{position:sticky;top:0;display:grid;grid-template-columns:1fr auto 1fr;padding-block:18px;border-bottom-color:transparent;
+    transition:background-color .35s var(--ease),box-shadow .35s var(--ease)}
+  .hd-bar.hd-scrolled{background:rgba(255,255,255,.84);-webkit-backdrop-filter:saturate(1.6) blur(18px);backdrop-filter:saturate(1.6) blur(18px);box-shadow:0 1px 0 var(--line),0 10px 30px -22px rgba(0,43,99,.35)}
+  .hd-seal{width:58px}
+  .hd-name{font-size:25px}
+  .hd-name span{font-size:12px}
+  .hd-menu-btn{display:none}
+  .hd-nav{display:flex;align-items:center;gap:clamp(28px,3vw,48px)}
+  .hd-link{position:relative;padding:10px 0;font-weight:600;font-size:15.5px;color:var(--navy);text-decoration:none}
+  .hd-link::after{content:"";position:absolute;left:0;right:0;bottom:4px;height:1.5px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease)}
+  .hd-link:hover::after,.hd-link:focus-visible::after{transform:scaleX(1)}
+  .hd-apply{display:inline-flex;justify-self:end;min-height:48px;padding:12px 24px}
+  .hd-menu{display:none}
+  html{scroll-padding-top:96px}
+}
+@media (hover:hover){.hd-check:hover{color:var(--gold-soft)}}

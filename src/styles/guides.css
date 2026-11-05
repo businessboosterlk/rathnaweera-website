@@ -1,0 +1,73 @@
+/* HELP AND GUIDES (prefix gd-). A bento of three editorial cards on the desk, a snap row on the phone. */
+.gd{background:var(--paper);padding-block:clamp(72px,9vw,140px);scroll-margin-top:72px}
+.gd-head{display:grid;gap:14px;margin-bottom:clamp(32px,4vw,56px)}
+.gd-h{font-size:clamp(38px,4.8vw,72px);line-height:1.06;letter-spacing:-.025em;margin:0}
+.gd-lead{color:var(--muted);font-size:clamp(17px,1.3vw,20px);margin:0;max-width:30em}
+.gd-desk{display:none}
+
+/* Phone: a snap row that bleeds to the screen edges and keeps the page itself still */
+.gd-grid{display:grid;grid-auto-flow:column;grid-auto-columns:84%;gap:14px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;
+  margin-inline:calc(var(--gut) * -1);padding:4px var(--gut) 18px;scroll-padding-inline:var(--gut);scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.gd-grid::-webkit-scrollbar{display:none}
+.gd-card{position:relative;display:flex;flex-direction:column;min-width:0;scroll-snap-align:start;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;
+  transition:transform .5s var(--ease),box-shadow .5s var(--ease),border-color .3s}
+.gd-pic{position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--deep)}
+.gd-pic picture{display:contents}
+.gd-pic .shot{transition:transform .9s var(--ease)}
+.gd-video .shot-wait .shot-orb{display:none}
+.gd-play{position:absolute;inset:0;margin:auto;display:grid;place-items:center;width:76px;height:76px;border-radius:50%;background:var(--cream);color:var(--navy);
+  box-shadow:0 12px 30px rgba(0,10,30,.35);transition:transform .5s var(--spring)}
+.gd .gd-play .ic{width:28px;height:28px;margin-left:4px;fill:var(--navy);stroke-width:1.4}
+.gd-body{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:22px 22px 24px;flex:1}
+.gd-tag{font:600 13px/1 var(--body);color:var(--gold);letter-spacing:.02em;margin:0;font-variant-numeric:tabular-nums}
+.gd-t{font:400 clamp(25px,2.2vw,34px)/1.15 var(--display);color:var(--navy);margin:0;letter-spacing:-.01em}
+.gd-p{color:var(--muted);font-size:16px;line-height:1.55;margin:0}
+.gd-docs{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:0;border-top:1px solid var(--line)}
+.gd-docs li{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);color:var(--ink);font-size:16px}
+.gd .gd-docs .ic{width:18px;height:18px;color:var(--gold);stroke-width:2.2}
+.gd-link{position:static;display:inline-flex;align-items:center;gap:8px;min-height:44px;margin-top:auto;padding-top:10px;color:var(--navy);font:600 16px/1.3 var(--body);
+  text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:5px}
+.gd-link::after{content:"";position:absolute;inset:0;border-radius:var(--r)}
+.gd-link .ic{transition:transform .35s var(--ease)}
+.gd-link:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.gd-card:has(.gd-link:focus-visible){border-color:var(--navy)}
+.gd-watch{margin-top:auto;padding-top:10px}
+.gd-card:has(.gd-link):active{transform:scale(.985)}
+
+@media (hover:hover){
+  .gd-card:has(.gd-link):hover{transform:translateY(-5px);box-shadow:var(--sh-2);border-color:transparent}
+  .gd-card:hover .gd-pic .shot{transform:scale(1.04)}
+  .gd-card:hover .gd-link .ic{transform:translateX(6px)}
+  .gd-card:hover .gd-play{transform:scale(1.08)}
+}
+
+/* Tablet: the big card across the top with its picture beside the words, the other two side by side */
+@media (min-width:760px){
+  .gd-desk{display:block}
+  .gd-phone{display:none}
+  .gd-head{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:end;gap:40px}
+  .gd-lead{justify-self:end;text-align:right}
+  .gd-grid{grid-auto-flow:row;grid-template-columns:1fr 1fr;grid-auto-columns:auto;overflow:visible;margin:0;padding:0;gap:20px}
+  .gd-big{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}
+  .gd-big .gd-pic{aspect-ratio:auto;min-height:100%}
+  .gd-body{padding:28px 28px 30px}
+}
+/* Desk: one large card on the left, two stacked on the right with their pictures beside the words */
+@media (min-width:1100px){
+  .gd-grid{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);grid-template-rows:1fr 1fr;gap:24px}
+  .gd-big{grid-column:1;grid-row:1/3;display:flex}
+  .gd-big .gd-pic{aspect-ratio:16/10;min-height:0}
+  .gd-big .gd-body{padding:36px 40px 40px}
+  .gd-big .gd-t{font-size:clamp(32px,2.8vw,44px)}
+  .gd-card:not(.gd-big){display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1fr)}
+  .gd-card:not(.gd-big) .gd-pic{aspect-ratio:auto;min-height:100%}
+  .gd-card:not(.gd-big) .gd-body{padding:30px 30px 32px;justify-content:center}
+  .gd-card:not(.gd-big) .gd-link,.gd-card:not(.gd-big) .gd-watch{margin-top:10px}
+  ol.gd-steps{display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;list-style:none;margin:8px 0 4px;padding:0;width:100%}
+  .gd-steps li{display:flex;align-items:center;gap:10px;color:var(--ink);font-size:15px;line-height:1.3}
+  .gd-steps span{display:grid;place-items:center;flex:none;width:26px;height:26px;border-radius:50%;border:1px solid var(--gold);font:600 12px/1 var(--body);color:var(--navy);font-variant-numeric:tabular-nums}
+}
+@media (prefers-reduced-motion:reduce){
+  .gd-card,.gd-pic .shot,.gd-play,.gd-link .ic{transition:none}
+  .gd-grid{scroll-behavior:auto}
+}

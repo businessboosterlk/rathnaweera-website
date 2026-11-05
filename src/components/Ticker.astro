@@ -1,0 +1,14 @@
+---
+// A slow moving band between the facts strip and the jobs. It repeats, in large type, what the hero and the
+// offices already say, so it adds no new claim. The second copy only makes the loop seamless and is hidden from
+// screen readers. Hover pauses it; reduced motion leaves it still. The band cuts its moving row at both edges on
+// purpose, which data-may-cut tells the clip check.
+import Icon from './Icon.astro';
+import '../styles/ticker.css';
+const lines = ['Real jobs', 'Checked on the SLBFE register', 'Apply in two minutes', 'A staff member calls you back', 'Offices in Ambalantota and Colombo'];
+---
+<div class="tk" data-ticker data-may-cut>
+  <div class="tk-row">
+    {[0, 1].map(n => <ul class="tk-set" aria-hidden={n ? 'true' : undefined}>{lines.map(l => <li>{l}<Icon name="plane" /></li>)}</ul>)}
+  </div>
+</div>

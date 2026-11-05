@@ -1,0 +1,51 @@
+---
+// AM I READY TO APPLY (id ready). Five documents as large tick rows, a ring that fills from 0 to 5 and a result card
+// that changes as the ticks land. Behaviour in src/scripts/ready.js (was site.js section 5). The fieldset keeps the
+// class "checklist" and the inputs keep name="doc": the apply form reads them for its summary and carry over.
+import '../styles/ready.css';
+import Icon from './Icon.astro';
+import Ph from './Ph.astro';
+const docs = ['Passport', 'National identity card', 'Police clearance report', 'Medical report', 'School or training certificates'];
+const pad = n => String(n).padStart(2, '0');
+---
+<section class="rd frame" id="ready" aria-labelledby="ready-h">
+  <div class="rd-grid">
+    <div class="rd-main">
+      <header class="rd-head" data-reveal>
+        <h2 id="ready-h" class="rd-h">Am I ready to apply?</h2>
+        <p class="rd-lead rd-desk">Tick what you have. It shows what is missing and carries your answers into the form. The list changes with the job type: <Ph t="document list per job type from Janaka" />.</p>
+        <p class="rd-lead rd-phone">Tick what you have. Your answers come with you into the form.</p>
+      </header>
+      <fieldset class="checklist rd-list" data-stagger>
+        <legend class="rd-sr">Documents you have</legend>
+        {docs.map((d, i) => (
+          <label class="rd-row" data-reveal>
+            <input class="rd-input" type="checkbox" name="doc" value={d} />
+            <span class="rd-no" aria-hidden="true">{pad(i + 1)}</span>
+            <span class="rd-name">{d}</span>
+            <span class="rd-box" aria-hidden="true"><Icon name="check" class="rd-tick" /></span>
+          </label>
+        ))}
+      </fieldset>
+      <p class="rd-foot rd-phone">Document list per job type: <Ph t="from Janaka" /></p>
+    </div>
+
+    <aside class="rd-side" data-reveal="right">
+      <div class="rd-card" data-rd-card aria-live="polite">
+        <div class="rd-top">
+          <div class="rd-ring" data-rd-ring style="--rd-p:0" aria-hidden="true">
+            <span class="rd-count"><b data-rd-count>0</b><small>of 5</small></span>
+            <Icon name="check" class="rd-ring-tick" />
+          </div>
+          <div class="rd-status">
+            <h3 class="rd-title" data-ready-title>You still need five things</h3>
+          </div>
+        </div>
+        <p class="rd-missing" data-ready-list>{docs.join(', ')}</p>
+        <p class="rd-next">What to do next for each: <Ph t="steps from Janaka" /></p>
+        <a class="rd-btn" href="#apply" data-apply-ready>Apply with these answers<Icon name="arrow" /></a>
+      </div>
+    </aside>
+  </div>
+  <script>import '../scripts/ready.js';</script>
+</section>

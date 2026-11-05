@@ -1,0 +1,74 @@
+/* HERO (prefix hero-). Words rise line by line, then the chip, the lead and the buttons; the globe turns on its own
+   and the plane flies only with the scroll. Without JavaScript or with reduced motion everything is simply there. */
+.hero-s{position:relative;display:grid;gap:8px;padding-block:30px 104px;overflow-x:clip;overflow-clip-margin:0}
+.hero-copy{position:relative;z-index:2;display:flex;flex-direction:column;align-items:flex-start;min-width:0}
+
+.hero-chip{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start;gap:4px 9px;max-width:100%;margin:0 0 22px;padding:8px 12px 8px 10px;border:1px solid rgba(200,152,42,.5);border-radius:var(--r-sm);
+  background:var(--warm);color:var(--muted);font-size:13px;line-height:1.45}
+.hero-chip > .ic{color:var(--gold);width:16px;height:16px;margin-top:2px}
+.hero-chip > .textlink{grid-column:2;justify-self:start}
+.hero-chip .textlink{font-size:13px}
+.hero-chip .ph{display:inline-block;max-width:100%}
+
+.hero-h1{font-size:clamp(40px,5.4vw,88px);line-height:1.03;letter-spacing:-.03em;margin:0 0 22px;max-width:15ch}
+/* the mask is padded past the letters' own box on every side (Caslon's box is taller than the 1.03 line), then pulled back so the heading keeps its place */
+.hero-w{display:inline-block;overflow:hidden;vertical-align:top;padding:.12em .06em .16em;margin:-.12em -.06em -.16em}
+.hero-w > span{display:inline-block;animation:hero-rise 1.05s var(--ease) both;animation-delay:calc(140ms + var(--l,0) * 130ms + var(--w,0) * 14ms)}
+@keyframes hero-rise{from{transform:translate3d(0,110%,0)}}
+
+.hero-lead{font-size:clamp(18px,1.42vw,22px);line-height:1.55;color:var(--muted);max-width:31em;margin:0 0 28px}
+.hero-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}
+.hero-actions .btn{padding-inline:12px}
+.hero-call{display:flex;align-items:center;flex-wrap:wrap;gap:6px 8px;margin:18px 0 0;font-size:14px;color:var(--muted)}
+.hero-call .ic{color:var(--gold)}
+.hero-chip,.hero-lead,.hero-actions,.hero-call{animation:hero-in .9s var(--ease) both}
+.hero-chip{animation-delay:.62s}
+.hero-lead{animation-delay:.72s}
+.hero-actions{animation-delay:.84s}
+.hero-call{animation-delay:.96s}
+@keyframes hero-in{from{opacity:0;transform:translate3d(0,16px,0)}}
+
+/* The art: a square box, sized in container units so the ring, the globe and the plane share one scale. */
+.hero-art{position:relative;container-type:inline-size;width:min(100%,470px);aspect-ratio:1;margin:-4% auto -6%;animation:hero-fade 1.2s var(--ease) .2s both}
+/* Only the globe grows in; the plane's box never moves until the visitor scrolls. */
+.hero-globe{animation:hero-grow 1.5s var(--ease) .2s both}
+@keyframes hero-fade{from{opacity:0}}
+@keyframes hero-grow{from{transform:scale(.94)}}
+.hero-ground{position:absolute;left:24%;right:24%;top:86%;height:7%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,26,61,.26),rgba(0,26,61,.08) 60%,transparent);z-index:0}
+.hero-ring{position:absolute;left:calc((var(--ocx) - var(--orx)) * 1%);top:calc((var(--ocy) - var(--ory)) * 1%);width:calc(var(--orx) * 2%);height:calc(var(--ory) * 2%);
+  border:1.5px solid var(--gold);border-radius:50%;transform:rotate(var(--otilt));pointer-events:none}
+.hero-ring-back{z-index:1;opacity:.42}
+.hero-ring-front{z-index:4;opacity:.95;clip-path:inset(50% 0 0 0)}
+
+.hero-globe{position:absolute;left:15%;top:15%;width:70%;aspect-ratio:1;z-index:3;border-radius:50%}
+.hero-sphere{position:absolute;inset:0;border-radius:50%;overflow:hidden;background:#F3EDE0;transition:opacity .9s var(--ease) .35s}
+.hero-sphere::after{content:"";position:absolute;inset:0;border-radius:50%;
+  background:radial-gradient(circle at 33% 28%,rgba(255,255,255,.55),rgba(255,255,255,0) 40%),radial-gradient(circle at 50% 50%,rgba(0,26,61,0) 56%,rgba(0,26,61,.34) 100%)}
+.hero-tex{position:absolute;top:0;left:0;height:100%;width:400%;background:0 0/50% 100% repeat-x;transform:translate3d(-21.5%,0,0)}
+/* No JavaScript, or no WebGL2: the same sheet slides behind the CSS sphere. The sheet is only asked for here. */
+html:not(.js) .hero-tex,.no-gl .hero-tex{background-image:var(--earth);animation:hero-spin 60s linear infinite}
+@keyframes hero-spin{from{transform:translate3d(-71.5%,0,0)}to{transform:translate3d(-21.5%,0,0)}}
+.hero-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity 1s var(--ease)}
+.gl-on .hero-canvas{opacity:1}
+.gl-on .hero-sphere{opacity:0}
+
+/* The plane. Its pose comes from custom properties (Hero.astro writes the resting one, hero.js the flight). */
+.hero-plane{position:absolute;left:0;top:0;z-index:5;width:21%;height:auto;pointer-events:none;will-change:transform;
+  transform:translate(calc(var(--px) * 1cqw - 50%),calc(var(--py) * 1cqw - 50%)) rotate(var(--pr)) scale(var(--psx),var(--psy));
+  filter:drop-shadow(0 10px 12px rgba(0,26,61,.18))}
+.is-back .hero-plane{z-index:2;opacity:.9}
+
+@media (min-width:760px){
+  .hero-actions{display:flex;flex-wrap:wrap;width:auto;gap:14px}
+  .hero-actions .btn{padding-inline:28px}
+  .hero-art{width:min(100%,560px)}
+}
+@media (min-width:1100px){
+  .hero-s{grid-template-columns:minmax(0,1.02fr) minmax(0,1fr);align-items:center;gap:clamp(32px,4vw,80px);
+    min-height:min(760px,calc(100svh - 170px));padding-block:clamp(28px,3vw,56px) clamp(112px,9vw,150px)}
+  .hero-chip{margin-bottom:30px;display:flex;flex-wrap:wrap;align-items:center}
+  .hero-chip > .ic{margin-top:0}
+  .hero-h1{margin-bottom:28px}
+  .hero-lead{margin-bottom:36px}
+  .hero-art{width:min(100%,680px);margin:-6% 0 -8% auto}
+}

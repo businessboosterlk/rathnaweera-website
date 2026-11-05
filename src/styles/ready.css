@@ -1,0 +1,82 @@
+/* AM I READY TO APPLY (prefix rd-). Large tick rows, a filling ring and a result card that turns navy at five of five. */
+@property --rd-p{syntax:'<number>';inherits:true;initial-value:0}
+
+.rd{background:var(--warm);padding-block:clamp(72px,9vw,140px);scroll-margin-top:72px}
+.rd-grid{display:grid;gap:40px}
+.rd-h{font-size:clamp(36px,4.4vw,64px);line-height:1.08;letter-spacing:-.02em;margin:0 0 18px;text-wrap:balance}
+.rd-lead{color:var(--muted);font-size:clamp(17px,1.25vw,19px);line-height:1.6;max-width:38em;margin:0}
+.rd-desk{display:none}
+.rd-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.rd-foot{margin:20px 0 0;color:var(--muted);font-size:15px}
+
+/* The five rows */
+.rd-list{border:0;margin:32px 0 0;padding:0;min-width:0;border-top:1px solid var(--line)}
+.rd-row{position:relative;display:grid;grid-template-columns:40px 1fr 36px;align-items:center;gap:14px;min-height:76px;padding:14px 6px 14px 2px;
+  border-bottom:1px solid var(--line);cursor:pointer;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;
+  transition:background-color .25s var(--ease),transform .16s var(--ease)}
+.rd-input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer;z-index:1}
+.rd-no{font:400 15px/1 var(--display);color:#8b97a6;letter-spacing:.02em;font-variant-numeric:tabular-nums;transition:color .3s}
+.rd-name{font:400 clamp(20px,1.9vw,27px)/1.25 var(--display);color:var(--navy);letter-spacing:-.01em}
+.rd-box{position:relative;justify-self:end;display:grid;place-items:center;width:34px;height:34px;border-radius:9px;border:1.5px solid #aab5c2;background:var(--paper);
+  transition:background-color .3s var(--ease),border-color .3s var(--ease),transform .3s var(--spring)}
+.rd .rd-tick{width:20px;height:20px;color:#fff;stroke-width:2.6;stroke-dasharray:24;stroke-dashoffset:24;transition:stroke-dashoffset .42s var(--ease) .06s}
+.rd-row:active{transform:scale(.985)}
+.rd-input:checked ~ .rd-box{background:var(--navy);border-color:var(--navy);transform:scale(1.04)}
+.rd-input:checked ~ .rd-box .rd-tick{stroke-dashoffset:0}
+.rd-input:checked ~ .rd-no{color:var(--gold)}
+.rd-input:focus-visible ~ .rd-box{outline:2px solid var(--gold);outline-offset:3px}
+@media (hover:hover){
+  .rd-row:hover{background:rgba(255,255,255,.7)}
+  .rd-row:hover .rd-box{border-color:var(--navy)}
+}
+
+/* The result card */
+.rd-card{position:relative;background:var(--paper);border-radius:var(--r);box-shadow:var(--sh-2);padding:clamp(24px,2.6vw,40px);
+  transition:background-color .6s var(--ease),color .6s var(--ease)}
+.rd-top{display:flex;align-items:center;gap:22px;margin-bottom:20px}
+.rd-ring{position:relative;flex:none;width:96px;height:96px;border-radius:50%;
+  background:conic-gradient(var(--gold) calc(var(--rd-p) * 1turn),#e9e3d4 0);transition:--rd-p .9s var(--ease)}
+.rd-ring::before{content:"";position:absolute;inset:8px;border-radius:50%;background:var(--paper);transition:background-color .6s var(--ease)}
+.rd-count{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;transition:opacity .3s,transform .4s var(--ease)}
+.rd-count b{font:400 38px/1 var(--display);color:var(--navy);font-variant-numeric:tabular-nums;transition:color .6s}
+.rd-count small{font:600 11px/1 var(--body);color:var(--muted);letter-spacing:.04em;transition:color .6s}
+.rd .rd-ring-tick{position:absolute;inset:0;margin:auto;width:40px;height:40px;color:var(--gold);stroke-width:2.4;stroke-dasharray:24;stroke-dashoffset:24;opacity:0;
+  transition:stroke-dashoffset .5s var(--ease) .2s,opacity .2s .15s}
+.rd-title{font:400 clamp(24px,2vw,30px)/1.2 var(--display);color:var(--navy);margin:0;text-wrap:balance;transition:color .6s}
+.rd-missing{font-size:16px;line-height:1.6;color:var(--ink);margin:0 0 14px;padding-top:18px;border-top:1px solid var(--line);transition:color .6s,border-color .6s}
+.rd-next{font-size:14px;color:var(--muted);margin:0 0 24px;transition:color .6s}
+.rd-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:56px;padding:14px 24px;border-radius:var(--r-sm);
+  background:var(--red);color:#fff;font:600 16px/1.2 var(--body);text-decoration:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;
+  transition:background-color .2s,transform .16s var(--ease),box-shadow .3s}
+.rd-btn .ic{transition:transform .3s var(--ease)}
+.rd-btn:active{transform:scale(.98)}
+.rd-btn:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+@media (hover:hover){.rd-btn:hover{background:var(--red-dark)}.rd-btn:hover .ic{transform:translateX(4px)}}
+
+/* Five of five: the card turns navy and the ring shows a drawn tick */
+.rd-card.rd-all{background:var(--navy);color:var(--cream)}
+.rd-all .rd-ring::before{background:var(--navy)}
+.rd-all .rd-count{opacity:0;transform:scale(.7)}
+.rd-all .rd-ring-tick{opacity:1;stroke-dashoffset:0}
+.rd-all .rd-title{color:#fff}
+.rd-all .rd-missing{color:var(--cream);border-color:rgba(247,245,239,.18)}
+.rd-all .rd-next{color:rgba(247,245,239,.72)}
+.rd-all .ph{border-color:var(--gold)}
+
+@media (min-width:760px){
+  .rd-desk{display:block}
+  .rd-phone{display:none}
+  .rd-row{grid-template-columns:56px 1fr 40px;min-height:88px;padding-inline:10px 14px}
+  .rd-box{width:38px;height:38px;border-radius:10px}
+  .rd-ring{width:112px;height:112px}
+  .rd-ring::before{inset:9px}
+  .rd-count b{font-size:44px}
+}
+@media (min-width:1100px){
+  .rd-grid{grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:clamp(56px,6vw,120px);align-items:start}
+  .rd-list{margin-top:48px}
+  .rd-side{position:sticky;top:120px;padding-top:12px}
+}
+@media (prefers-reduced-motion:reduce){
+  .rd-row,.rd-box,.rd-tick,.rd-ring,.rd-ring::before,.rd-count,.rd-ring-tick,.rd-card,.rd-title,.rd-missing,.rd-btn,.rd-btn .ic{transition:none}
+}

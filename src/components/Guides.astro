@@ -1,0 +1,52 @@
+---
+// HELP AND GUIDES (id help). Three editorial cards in a bento on the desk and a snap row on the phone. Each has its
+// picture on top (stand-ins until Thulaib sends guide-documents, guide-legal-steps and guide-videos).
+import '../styles/guides.css';
+import Icon from './Icon.astro';
+import Ph from './Ph.astro';
+import Shot from './Shot.astro';
+---
+<section class="gd frame" id="help" aria-labelledby="help-h">
+  <header class="gd-head" data-reveal>
+    <h2 id="help-h" class="gd-h">Help and guides</h2>
+    <p class="gd-lead">Everything to read before you apply.</p>
+  </header>
+  <div class="gd-grid" data-stagger>
+    <article class="gd-card gd-big" data-reveal>
+      <div class="gd-pic"><Shot name="guide-documents" icon="file" sizes="(min-width: 1100px) 760px, (min-width: 760px) 50vw, 84vw" /></div>
+      <div class="gd-body">
+        <p class="gd-tag">Guide 1 of 3</p>
+        <h3 class="gd-t">Documents you need</h3>
+        <p class="gd-p gd-phone">A printable checklist</p>
+        <div class="gd-desk">
+          <p class="gd-p">A printable checklist for your job type.</p>
+          <ul class="gd-docs"><li><Icon name="check" />Passport and NIC</li><li><Icon name="check" />Police clearance report</li><li><Icon name="check" />Medical report</li></ul>
+        </div>
+        <a class="gd-link" href="#ready">Open the checklist<Icon name="arrow" /></a>
+      </div>
+    </article>
+    <article class="gd-card" data-reveal>
+      <div class="gd-pic"><Shot name="guide-legal-steps" icon="stamp" sizes="(min-width: 1100px) 300px, (min-width: 760px) 50vw, 84vw" /></div>
+      <div class="gd-body">
+        <p class="gd-tag">Guide 2 of 3</p>
+        <h3 class="gd-t">The legal steps</h3>
+        <ol class="gd-steps gd-desk">{['SLBFE registration', 'Training', 'Medical', 'Visa'].map((t, i) => <li><span>{i + 1}</span>{t}</li>)}</ol>
+        <p class="gd-p gd-phone">Registration, training, medical and visa</p>
+        <a class="gd-link" href="#steps">Read the steps<Icon name="arrow" /></a>
+      </div>
+    </article>
+    <article class="gd-card gd-video" data-reveal>
+      <div class="gd-pic">
+        <Shot name="guide-videos" icon="video" sizes="(min-width: 1100px) 300px, (min-width: 760px) 50vw, 84vw" />
+        <span class="gd-play" aria-hidden="true"><Icon name="play" /></span>
+      </div>
+      <div class="gd-body">
+        <p class="gd-tag">Guide 3 of 3</p>
+        <h3 class="gd-t">Video guides</h3>
+        <p class="gd-p gd-phone">Added as we film them</p>
+        <p class="gd-p gd-desk"><Ph t="videos arrive as they are filmed" /></p>
+        <p class="gd-p gd-watch"><Ph t="Watch, when the first video is filmed" /></p>
+      </div>
+    </article>
+  </div>
+</section>

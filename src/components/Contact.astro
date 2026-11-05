@@ -1,0 +1,39 @@
+---
+// CONTACT AND OFFICES (id contact). The five contact placeholders as one tidy list and the two office cards with
+// their map placeholders. No tel: link and no WhatsApp link until the numbers are confirmed.
+import '../styles/contact.css';
+import Icon from './Icon.astro';
+import Ph from './Ph.astro';
+import { SITE } from '../config.js';
+const items = [['Landline', 'phone'], ['Mobile 1', 'call'], ['Mobile 2', 'call'], ['Email', 'mail'], ['Opening hours', 'clock']];
+---
+<section class="ct" id="contact" aria-labelledby="contact-h">
+  <div class="ct-in frame">
+    <header class="ct-head" data-reveal>
+      <h2 id="contact-h" class="ct-h">Contact and offices</h2>
+      <p class="ct-lead ct-desk">Call or visit us. These are the only three numbers.</p>
+      <p class="ct-lead ct-phone">Call or visit us.</p>
+    </header>
+    <div class="ct-grid" data-stagger>
+      <div class="ct-panel" data-reveal>
+        <ul class="ct-list">
+          {items.map(([x, ic]) => <li><span class="ct-ic"><Icon name={ic} /></span><Ph t={x} /></li>)}
+        </ul>
+      </div>
+      {SITE.offices.map(o => (
+        <article class="ct-office" data-reveal>
+          <div class="ct-map">
+            <span class="ct-pin" aria-hidden="true"><Icon name="pin" /></span>
+            <span class="ct-mapl">MAP: {o.name}</span>
+          </div>
+          <div class="ct-body">
+            <h3 class="ct-ot">{o.name}</h3>
+            <p class="ct-town">{o.town}</p>
+            <p class="ct-p"><Ph t="full address" /></p>
+            <p class="ct-p"><Ph t="opening hours" /></p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

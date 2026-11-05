@@ -1,0 +1,22 @@
+---
+// The licence and offices strip: four facts in four boxes, the words dead centre in each box both ways (phone 2x2,
+// desk 4 across). A navy band that rises over the hero's foot. Under it, the slot for the Ambalantota office photo.
+import Icon from './Icon.astro';
+import Ph from './Ph.astro';
+import Shot from './Shot.astro';
+import { SITE } from '../config.js';
+import '../styles/trust.css';
+const head = SITE.offices[0];
+---
+<section class="ts frame" aria-label="Facts about the agency">
+  <div class="ts-band" data-reveal data-stagger>
+    <div class="ts-box" data-reveal="fade"><p class="ts-fact"><Ph t="SLBFE licence no." /></p><p class="ts-label">SLBFE licence <a class="ts-link" href={SITE.registerUrl} target="_blank" rel="noopener">Check it<Icon name="external" /></a></p></div>
+    <div class="ts-box" data-reveal="fade"><p class="ts-fact">Two offices</p><p class="ts-label">Ambalantota and Colombo</p></div>
+    <div class="ts-box" data-reveal="fade"><p class="ts-fact"><Ph t="Year started" /></p><p class="ts-label">Year we started</p></div>
+    <div class="ts-box" data-reveal="fade"><p class="ts-fact"><Ph t="People placed, with proof" /></p><p class="ts-label ts-hang">People placed abroad</p></div>
+  </div>
+  <figure class="ts-photo" data-reveal="wipe">
+    <div class="ts-frame drift"><Shot real name="real-office-ambalantota" need="the Ambalantota office with its signboard, wide 16:9" sizes="(min-width: 1100px) 1600px, 92vw" widths={[640, 1100, 1600]} alt="The Rathnaweera head office in Ambalantota" /></div>
+    <figcaption class="ts-cap"><Icon name="pin" />{head.name}, {head.town}</figcaption>
+  </figure>
+</section>

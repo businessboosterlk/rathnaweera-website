@@ -1,0 +1,46 @@
+---
+// The hero. The H1 starts on the frame's left edge, the same x as the seal, on phone and desk. Its words rise line
+// by line on load, then the licence chip, the lead and the buttons. Right: a globe drawn from real map data that
+// turns on its own (src/scripts/globe.js) and a plane on a gold ring that flies only when the visitor scrolls
+// (src/scripts/hero.js). Without JavaScript the words are simply there, the globe is a CSS sphere and the plane rests.
+import { Picture } from 'astro:assets';
+import Icon from './Icon.astro';
+import Ph from './Ph.astro';
+import { SITE, url } from '../config.js';
+import { img } from '../lib/img.js';
+import { ORBIT, pose, vars } from '../scripts/hero.js';
+import '../styles/hero.css';
+const plane = img('hero-plane');
+const words = 'Work abroad with a licensed Sri Lankan agency.'.split(' ');
+const earth = url('assets/earth.webp');
+const o = ORBIT;
+const art = `${vars(pose(o.a0))};--ocx:${o.cx};--ocy:${o.cy};--orx:${o.rx};--ory:${o.ry};--otilt:${o.tilt}deg;--earth:url(${earth})`;
+---
+<section class="hero hero-s frame" aria-labelledby="hero-h" data-hero>
+  <div class="hero-copy">
+    <p class="hero-chip"><Icon name="shield" /><span>SLBFE licence <Ph t="SLBFE licence no. from Janaka's certificate" /></span> <a class="textlink" href={SITE.registerUrl} target="_blank" rel="noopener">Check it<Icon name="external" /></a></p>
+    <h1 id="hero-h" class="hero-h1">{words.map((w, i) => <><span class="hero-w"><span style={`--w:${i}`}>{w}</span></span>{i < words.length - 1 ? ' ' : ''}</>)}</h1>
+    <script is:inline>(function(){var h=document.getElementById('hero-h');if(!h)return;var y=null,l=-1;[].forEach.call(h.querySelectorAll('.hero-w'),function(w){var t=w.offsetTop;if(y===null||t>y+4){l++;y=t}w.style.setProperty('--l',l)})})()</script>
+    <p class="hero-lead">Real jobs, checked on the SLBFE register. Apply in two minutes and a staff member calls you back.</p>
+    <div class="hero-actions">
+      <a class="btn outline" href="#jobs">See jobs open now</a>
+      <a class="btn" href="#apply">Apply<Icon name="arrow" /></a>
+    </div>
+    <p class="hero-call"><Icon name="clock" />Call back timing: <Ph t="waits for Janaka" /></p>
+  </div>
+  <div class="hero-art" data-hero-art aria-hidden="true" style={art}>
+    <div class="hero-ground"></div>
+    <div class="hero-ring hero-ring-back"></div>
+    <div class="hero-globe">
+      <div class="hero-sphere"><div class="hero-tex"></div></div>
+      <canvas class="hero-canvas" data-globe data-src={earth} width="2" height="2"></canvas>
+    </div>
+    <div class="hero-ring hero-ring-front"></div>
+    {plane && <Picture src={plane} formats={['avif']} fallbackFormat="webp" widths={[160, 320, 480]} sizes="(min-width: 1100px) 150px, 90px" alt="" loading="eager" class="hero-plane" />}
+  </div>
+</section>
+
+<script>
+  import '../scripts/hero.js';
+  import '../scripts/globe.js';
+</script>

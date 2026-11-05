@@ -1,0 +1,81 @@
+/* WHO YOU WILL MEET (prefix tm-). A large upright portrait with the team photo over its corner, a pull quote,
+   four round staff frames and the two offices. Built to look intentional while every frame is still empty. */
+.tm{background:var(--warm);scroll-margin-top:72px}
+.tm-in{padding-block:clamp(72px,9vw,140px)}
+.tm-grid{display:grid}
+.tm-desk{display:none}
+
+/* Photo frames. Empty frames are white PHOTO NEEDED boxes on the warm ground. */
+.tm .shot-need{background:var(--paper);gap:12px;padding:24px}
+.tm .shot-need .ic{width:30px;height:30px}
+.tm .shot-need span{font:400 17px/1.35 var(--display);letter-spacing:0;color:var(--navy);max-width:15em;text-wrap:balance}
+.tm .shot-need small{font:500 12px/1 var(--body);color:var(--muted)}
+.tm picture{display:contents}
+.tm .shot{transition:transform .9s var(--ease)}
+
+.tm-photos{position:relative;padding-bottom:18%;max-width:620px;margin-bottom:56px}
+.tm-lead{width:82%;aspect-ratio:4/5;border-radius:var(--r);overflow:hidden}
+.tm-team{position:absolute;right:0;bottom:0;width:58%;padding:8px;background:var(--warm);border-radius:calc(var(--r) + 8px)}
+.tm-team-in{aspect-ratio:3/2;border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-2)}
+.tm-team .shot-need{padding:12px;gap:6px}
+.tm-team .shot-need span{font-size:14px}
+.tm-team .shot-need small{display:none}
+.tm-team .shot-need .ic{width:22px;height:22px}
+
+/* Words */
+.tm-h{font-size:clamp(38px,4.8vw,72px);line-height:1.06;letter-spacing:-.025em;margin:0 0 32px}
+.tm-quote{position:relative;margin:0 0 44px;padding:0}
+.tm .tm-qm{width:34px;height:34px;color:var(--gold);stroke-width:1.4;margin-bottom:14px}
+.tm-quote blockquote{margin:0}
+.tm-quote p{font:400 clamp(23px,2.2vw,34px)/1.4 var(--display);color:var(--navy);letter-spacing:-.01em;margin:0;text-wrap:pretty}
+.tm-quote .ph{font:400 .8em/1.5 var(--display)}
+
+.tm-staff{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 16px;margin:0 0 44px;padding-top:28px;border-top:1px solid var(--line)}
+.tm-person{display:flex;align-items:center;gap:14px;margin:0;min-width:0}
+.tm-face{flex:none;width:72px;height:72px;border-radius:50%;overflow:hidden}
+.tm-face .shot-need{border-radius:50%;padding:0}
+.tm-face .shot-need span{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.tm-face .shot-need small{display:none}
+.tm-face .shot-need .ic{width:22px;height:22px}
+.tm-person figcaption{display:grid;gap:6px;min-width:0;font-size:14px}
+.tm-name{color:var(--navy);font-weight:600}
+.tm-role{color:var(--muted)}
+
+.tm-offices{display:grid;gap:16px}
+.tm-office{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;transition:transform .5s var(--ease),box-shadow .5s var(--ease)}
+.tm-opic{aspect-ratio:3/2;overflow:hidden}
+.tm-opic .shot-need{border-radius:0;border-width:0 0 1.5px;padding:16px}
+.tm-opic .shot-need span{font-size:15px}
+.tm-obody{padding:20px 22px 22px}
+.tm-ot{font:400 24px/1.2 var(--display);color:var(--navy);margin:0 0 8px}
+.tm-op{display:flex;align-items:center;gap:8px;margin:0 0 6px;font-weight:600;color:var(--navy)}
+.tm .tm-op .ic{color:var(--gold);width:17px;height:17px}
+.tm-oa{margin:0;color:var(--muted);font-size:15px}
+.tm-more{margin:28px 0 0;color:var(--muted);font-size:15px}
+
+@media (hover:hover){
+  .tm-office:hover{transform:translateY(-4px);box-shadow:var(--sh-2)}
+  .tm-office:hover .shot,.tm-lead:hover .shot,.tm-team-in:hover .shot{transform:scale(1.04)}
+}
+
+@media (min-width:560px){
+  .tm-staff{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .tm-person{flex-direction:column;align-items:flex-start;gap:14px}
+  .tm-face{width:100%;height:auto;aspect-ratio:1;max-width:132px}
+  .tm-face .shot-need .ic{width:28px;height:28px}
+  .tm-offices{grid-template-columns:1fr 1fr}
+}
+@media (min-width:760px){
+  .tm-desk{display:block}
+}
+@media (min-width:1100px){
+  .tm-grid{grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);column-gap:clamp(64px,7vw,128px);align-items:start}
+  .tm-photos{grid-column:1;grid-row:1 / span 2;position:sticky;top:110px;padding-bottom:16%;margin-bottom:0}
+  .tm-h{grid-column:2;grid-row:1;margin-bottom:36px}
+  .tm-copy{grid-column:2;grid-row:2}
+  .tm .tm-lead .shot-need span{font-size:22px}
+  .tm-team .shot-need small{display:block}
+}
+@media (prefers-reduced-motion:reduce){
+  .tm .shot,.tm-office{transition:none}
+}

@@ -1,0 +1,67 @@
+---
+// COUNTRIES WE SEND TO, as a world map. The map is generated geometry (scripts/build-map.mjs, src/lib/worldmap.js).
+// Pressing a country (its button, its pin or its shape) glides the map to it and pops its SAMPLE card out of its spot.
+// The card's "See jobs in ..." link carries data-country-tile, so the jobs filter and its one history entry work
+// as before. Opening a card adds no history entry. Without JavaScript the six cards show as a grid under the map.
+import '../styles/worldmap.css';
+import Icon from './Icon.astro';
+import Ph from './Ph.astro';
+import Shot from './Shot.astro';
+import { worldMap, mapMeta } from '../lib/worldmap.js';
+
+const countries = [
+  { key: 'kuwait', name: 'Kuwait', img: 'country-kuwait' },
+  { key: 'qatar', name: 'Qatar', img: 'country-qatar' },
+  { key: 'uae', name: 'United Arab Emirates', img: 'country-uae' },
+  { key: 'saudi', name: 'Saudi Arabia', img: 'country-saudi-arabia' },
+  { key: 'oman', name: 'Oman', img: 'country-oman' },
+  { key: 'bahrain', name: 'Bahrain', img: 'country-bahrain' },
+];
+const order = countries.map(c => c.key);
+const names = Object.fromEntries(countries.map(c => [c.key, c.name]));
+---
+<section class="wm" id="countries" aria-labelledby="countries-h" data-wm data-wm-meta={JSON.stringify(mapMeta(order))}>
+  <div class="wm-in frame">
+    <div class="wm-head">
+      <h2 class="wm-h2" id="countries-h" data-reveal>Countries we send to</h2>
+      <p class="wm-lead wm-desk" data-reveal>Press a country to find it on the map. Its card opens the jobs list already filtered to that country. The list of countries is <Ph t="supplied by Janaka" />.</p>
+      <p class="wm-lead wm-phone" data-reveal>Tap a country to see its jobs.</p>
+    </div>
+
+    <div class="wm-list" role="group" aria-label="Countries" data-stagger>
+      {countries.map(c => (
+        <button class="wm-chip" type="button" data-wm-country={c.key} aria-expanded="false" aria-controls={`wm-card-${c.key}`} data-reveal>
+          <span class="wm-chip-dot" aria-hidden="true"></span>
+          <span class="wm-chip-name">{c.name}</span>
+          <Icon name="right" class="wm-chip-go" />
+        </button>
+      ))}
+      <p class="wm-note"><span class="sample">SAMPLE</span> countries, until the agency confirms the list</p>
+    </div>
+
+    <div class="wm-panel" data-reveal="fade">
+      <div class="wm-stage" data-wm-stage>
+        <Fragment set:html={worldMap(order, names)} />
+        <p class="wm-hint" aria-hidden="true"><Icon name="pin" />Press a country</p>
+        <p class="wm-legend" aria-hidden="true"><span class="wm-key wm-key-home"></span>Sri Lanka<span class="wm-key wm-key-to"></span>Countries we send to</p>
+      </div>
+      <div class="wm-cards" data-wm-cards>
+        {countries.map(c => (
+          <article class="wm-card" id={`wm-card-${c.key}`} data-wm-card={c.key} aria-label={c.name}>
+            <div class="wm-cpic">
+              <Shot name={c.img} icon="globe" sizes="(min-width: 760px) 320px, 40vw" widths={[400, 640]} />
+              <span class="sample wm-sample">SAMPLE</span>
+            </div>
+            <div class="wm-cbody">
+              <h3 class="wm-cname">{c.name}</h3>
+              <p class="wm-ccount"><Ph t="n" /> jobs open</p>
+              <a class="wm-see" href="#jobs" data-country-tile={c.key} data-name={c.name}>See jobs in {c.name}<Icon name="arrow" /></a>
+            </div>
+            <button class="wm-close" type="button" data-wm-close aria-label={`Close ${c.name}`}><Icon name="close" /></button>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+<script>import '../scripts/worldmap.js';</script>

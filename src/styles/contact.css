@@ -1,0 +1,54 @@
+/* CONTACT AND OFFICES (prefix ct-). A navy list of the five contact placeholders and two office cards with map stand-ins. */
+.ct{background:var(--warm);scroll-margin-top:72px}
+.ct-in{padding-block:clamp(72px,9vw,140px)}
+.ct-head{display:grid;gap:14px;margin-bottom:clamp(32px,4vw,56px)}
+.ct-h{font-size:clamp(38px,4.8vw,72px);line-height:1.06;letter-spacing:-.025em;margin:0}
+.ct-lead{color:var(--muted);font-size:clamp(17px,1.3vw,20px);margin:0}
+.ct-desk{display:none}
+
+.ct-grid{display:grid;gap:16px}
+.ct-panel{background:var(--navy);color:var(--cream);border-radius:var(--r);padding:8px 22px}
+.ct-panel .ph{border-color:var(--gold)}
+.ct-list{list-style:none;margin:0;padding:0}
+.ct-list li{display:flex;align-items:center;gap:16px;min-height:68px;padding:12px 0;border-bottom:1px solid rgba(247,245,239,.14);font:400 19px/1.3 var(--display)}
+.ct-list li:last-child{border-bottom:0}
+.ct-ic{display:grid;place-items:center;flex:none;width:40px;height:40px;border-radius:50%;border:1px solid rgba(200,152,42,.55);color:var(--gold-soft)}
+.ct .ct-ic .ic{width:18px;height:18px}
+
+.ct-office{display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;
+  transition:transform .5s var(--ease),box-shadow .5s var(--ease)}
+.ct-map{position:relative;display:grid;place-content:center;justify-items:center;gap:14px;aspect-ratio:16/9;background-color:#eef0ec;
+  background-image:linear-gradient(rgba(0,43,99,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(0,43,99,.07) 1px,transparent 1px);background-size:32px 32px;background-position:center}
+.ct-pin{display:grid;place-items:center;width:52px;height:52px;border-radius:50%;background:var(--paper);color:var(--red);box-shadow:var(--sh-2);transition:transform .5s var(--spring)}
+.ct .ct-pin .ic{width:24px;height:24px;stroke-width:2}
+.ct-mapl{font:600 12px/1 var(--body);letter-spacing:.06em;color:var(--muted);border:1px dashed var(--gold);border-radius:4px;padding:6px 8px;background:var(--paper)}
+.ct-body{padding:22px 22px 24px}
+.ct-ot{font:400 26px/1.2 var(--display);color:var(--navy);margin:0 0 6px}
+.ct-town{font-weight:600;color:var(--navy);margin:0 0 12px}
+.ct-p{margin:0 0 8px;color:var(--muted);font-size:15px}
+.ct-p:last-child{margin:0}
+
+@media (hover:hover){
+  .ct-office:hover{transform:translateY(-4px);box-shadow:var(--sh-2)}
+  .ct-office:hover .ct-pin{transform:translateY(-4px)}
+}
+@media (min-width:760px){
+  .ct-desk{display:block}
+  .ct-phone{display:none}
+  .ct-head{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:end;gap:40px}
+  .ct-lead{justify-self:end;text-align:right}
+  .ct-grid{grid-template-columns:1fr 1fr;gap:20px}
+  .ct-panel{grid-column:1/-1;padding:8px 28px}
+  .ct-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:28px}
+  .ct-list li:nth-last-child(-n+2){border-bottom:0}
+}
+@media (min-width:1100px){
+  .ct-grid{grid-template-columns:minmax(300px,.8fr) 1fr 1fr;gap:24px;align-items:stretch}
+  .ct-panel{grid-column:auto;padding:14px 30px}
+  .ct-list{display:block}
+  .ct-list li{min-height:76px}
+  .ct-list li:nth-last-child(2){border-bottom:1px solid rgba(247,245,239,.14)}
+}
+@media (prefers-reduced-motion:reduce){
+  .ct-office,.ct-pin{transition:none}
+}

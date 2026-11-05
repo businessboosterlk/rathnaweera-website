@@ -1,0 +1,85 @@
+/* JOBS OPEN NOW (prefix jb-). Six SAMPLE cards and the country filter. Tokens only, from global.css :root. */
+.jb{background:var(--paper);padding-block:clamp(72px,9vw,140px)}
+.jb .jb-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px 32px;flex-wrap:wrap;margin:0 0 clamp(24px,3vw,36px)}
+.jb .jb-titles{max-width:44em}
+.jb .jb-h2{font:400 clamp(40px,4.8vw,76px)/1.04 var(--display);letter-spacing:-.03em;color:var(--navy);margin:0;text-wrap:balance}
+.jb .jb-lead{margin:16px 0 0;color:var(--muted);font-size:17px;line-height:1.6}
+.jb .jb-desk{display:none}
+.jb .jb-link{display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0;border:0;background:none;color:var(--navy);font:600 16px/1.3 var(--body);
+  text-decoration:underline;text-decoration-color:var(--gold);text-decoration-thickness:1.5px;text-underline-offset:5px;cursor:pointer;-webkit-user-select:none;user-select:none}
+.jb .jb-link .ic{width:1em;height:1em;transition:transform .3s var(--ease)}
+.jb .jb-link:focus-visible,.jb .jb-chip:focus-visible,.jb .jb-apply:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+/* the filter: a segmented row with one navy pill that slides to the choice */
+.jb .jb-bar{margin:0 calc(-1 * var(--gut)) clamp(22px,2.6vw,32px);padding-inline:var(--gut)}
+.jb .jb-chips{position:relative;display:flex;gap:4px;width:max-content;max-width:100%;padding:5px;border:1px solid var(--line);border-radius:14px;background:var(--warm);
+  overflow-x:auto;scrollbar-width:none;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+.jb .jb-chips::-webkit-scrollbar{display:none}
+.jb .jb-ind{position:absolute;top:5px;bottom:5px;left:0;width:0;border-radius:10px;background:var(--navy);box-shadow:0 1px 2px rgba(0,26,61,.2),0 6px 16px rgba(0,26,61,.18);
+  transition:transform .55s var(--ease),width .55s var(--ease);pointer-events:none}
+.jb .jb-chip{position:relative;z-index:1;flex:none;min-height:46px;padding:0 18px;border:0;border-radius:10px;background:none;color:var(--navy);
+  font:600 15px/1 var(--body);white-space:nowrap;cursor:pointer;transition:color .3s var(--ease),transform .15s var(--ease);-webkit-user-select:none;user-select:none}
+.jb .jb-chip[aria-pressed="true"]{color:#fff}
+.jb .jb-chip:active{transform:scale(.97)}
+html:not(.js) .jb .jb-bar{display:none}
+
+.jb .jb-filter{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 22px;padding:12px 16px;border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:var(--r-sm);background:var(--warm);font-weight:600;color:var(--navy)}
+.jb .jb-filter[hidden]{display:none}
+.jb .jb-filter .ic{color:var(--gold)}
+.jb .jb-filter .jb-link{min-height:36px;margin-left:auto}
+
+/* the cards */
+.jb .jb-grid{position:relative;display:grid;gap:clamp(18px,2vw,28px);grid-template-columns:minmax(0,1fr)}
+.jb .jb-card{min-width:0}
+.jb .jb-card[hidden]{display:none}
+.jb .jb-card.jb-out{display:block !important;position:absolute;margin:0;pointer-events:none;z-index:0}
+.jb .jb-inner{height:100%;display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;
+  transition:transform .45s var(--ease),box-shadow .45s var(--ease),border-color .45s var(--ease)}
+.jb .jb-pic{position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--warm)}
+.jb .jb-pic .shot{transition:transform .9s var(--ease)}
+.jb .jb-pic img{width:100%;height:100%;object-fit:cover}
+.jb .jb-sample{position:absolute;top:14px;left:14px;background:rgba(255,255,255,.94);border-color:transparent;color:var(--navy)}
+.jb .jb-body{flex:1;display:flex;flex-direction:column;padding:22px 24px 24px}
+.jb .jb-country{display:flex;align-items:center;gap:7px;margin:0;font:600 14px/1.3 var(--body);color:var(--navy)}
+.jb .jb-country .ic{color:var(--gold)}
+.jb .jb-title{font:400 clamp(27px,2.2vw,32px)/1.1 var(--display);letter-spacing:-.015em;color:var(--navy);margin:10px 0 16px}
+.jb .jb-meta{list-style:none;margin:0 0 24px;padding:16px 0 0;border-top:1px solid var(--line);display:grid;gap:9px;color:var(--muted);font-size:15px}
+.jb .jb-meta li{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.jb .jb-meta .ic{color:var(--navy);opacity:.65}
+.jb .jb-card .jb-apply{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;padding:0 20px;border:1px solid var(--navy);border-radius:var(--r-sm);
+  color:var(--navy);font:600 16px/1.2 var(--body);text-decoration:none;transition:background-color .2s,color .2s,transform .15s var(--ease);-webkit-user-select:none;user-select:none}
+.jb .jb-apply .ic{transition:transform .3s var(--ease)}
+.jb .jb-apply:active{transform:scale(.98)}
+
+/* the example of an empty list */
+.jb .jb-empty{display:none}
+.jb .jb-example{margin:0 0 10px;font:600 13px/1.4 var(--body);color:var(--muted)}
+.jb .jb-empty-in{display:flex;gap:20px;align-items:flex-start;padding:26px 28px;border:1.5px dashed var(--line);border-radius:var(--r);background:var(--warm)}
+.jb .jb-empty-ic{display:grid;place-items:center;flex:none;width:52px;height:52px;border-radius:50%;border:1px solid var(--line);background:var(--paper);color:var(--navy)}
+.jb .jb-empty-ic .ic{width:22px;height:22px}
+.jb .jb-empty h3{font:400 24px/1.2 var(--display);color:var(--navy);margin:2px 0 8px}
+.jb .jb-empty p{color:var(--muted);margin:0 0 12px;max-width:40em}
+
+@media (hover:hover){
+  .jb .jb-card:hover .jb-inner{transform:translateY(-5px);box-shadow:var(--sh-2);border-color:transparent}
+  .jb .jb-card:hover .jb-pic .shot{transform:scale(1.04)}
+  .jb .jb-apply:hover{background:var(--navy);color:#fff}
+  .jb .jb-apply:hover .ic,.jb .jb-link:hover .ic{transform:translateX(4px)}
+  .jb .jb-chip[aria-pressed="false"]:hover{color:var(--red)}
+}
+@media (min-width:760px){
+  .jb .jb-desk{display:block}
+  .jb .jb-phone{display:none}
+  .jb .jb-bar{margin-inline:0;padding-inline:0}
+  .jb .jb-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .jb .jb-empty{display:block;margin-top:clamp(40px,5vw,64px);max-width:760px}
+}
+@media (min-width:1100px){
+  .jb .jb-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .jb .jb-body{padding:24px 28px 28px}
+}
+@media (prefers-reduced-motion:reduce){
+  .jb .jb-ind,.jb .jb-inner,.jb .jb-pic .shot,.jb .jb-chip,.jb .jb-apply,.jb .jb-apply .ic,.jb .jb-link .ic{transition:none}
+}
+
+.jb .jb-lead .ph{white-space:nowrap}

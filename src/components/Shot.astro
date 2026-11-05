@@ -1,0 +1,14 @@
+---
+// One picture by name, or its stand-in. `real` marks a photo of the agency itself: its stand-in is a gold dashed
+// PHOTO NEEDED box that says what to send. Any other missing picture is a navy plate with its line icon in a ring and the file name to send.
+import { Picture } from 'astro:assets';
+import { img } from '../lib/img.js';
+import Icon from './Icon.astro';
+const { name, alt = '', sizes = '(min-width: 760px) 50vw, 92vw', widths = [400, 640, 900], icon = 'camera', real = false, need = '', loading = 'lazy', class: cls = '' } = Astro.props;
+const src = img(name);
+---
+{src
+  ? <Picture src={src} formats={['avif']} fallbackFormat="webp" widths={widths} sizes={sizes} alt={alt} loading={loading} class={`shot ${cls}`} />
+  : real
+    ? <div class={`shot shot-need ${cls}`}><Icon name="camera" /><span>PHOTO NEEDED: {need}</span><small>{name.replace('real-', '')}.jpg</small></div>
+    : <div class={`shot shot-wait ${cls}`} aria-hidden="true"><span class="shot-orb"><i></i><Icon name={icon} /></span><span class="shot-tag">Picture to come<small>{name}</small></span></div>}

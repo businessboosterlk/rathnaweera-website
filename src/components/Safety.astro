@@ -1,0 +1,77 @@
+---
+// STAY SAFE FROM FAKE AGENTS (id safety). Five proof rows whose shields draw in one after another, and a cream
+// certificate card with the seal, the licence placeholder and Check it. Restraint is the credibility: no badges,
+// no invented seals, no safety claims beyond the agency's own five rules.
+import '../styles/safety.css';
+import Icon from './Icon.astro';
+import Ph from './Ph.astro';
+import Shot from './Shot.astro';
+import { SITE } from '../config.js';
+const phones = [['landline', 'Landline', 'phone'], ['mobile1', 'Mobile 1', 'call'], ['mobile2', 'Mobile 2', 'call']];
+---
+<section class="sf" id="safety" aria-labelledby="safety-h">
+  <div class="sf-in frame">
+    <div class="sf-grid">
+      <div class="sf-main">
+        <header class="sf-head" data-reveal>
+          <h2 id="safety-h" class="sf-h">Stay safe from fake agents</h2>
+          <p class="sf-lead sf-desk">Families fear scams more than anything. Here is how to know it is really us.</p>
+          <p class="sf-lead sf-phone">How to know it is really us.</p>
+        </header>
+        <ol class="sf-rules" data-stagger>
+          <li class="sf-rule" data-reveal>
+            <span class="sf-no" aria-hidden="true">01</span>
+            <Icon name="shield" class="sf-tick" />
+            <div class="sf-body">
+              <p class="sf-t">Only these three numbers:</p>
+              <div class="sf-nums">
+                {phones.map(([, l, ic]) => <span class="sf-num"><Icon name={ic} /><Ph t={l} /></span>)}
+              </div>
+            </div>
+          </li>
+          <li class="sf-rule" data-reveal>
+            <span class="sf-no" aria-hidden="true">02</span>
+            <Icon name="shield" class="sf-tick" />
+            <div class="sf-body"><p class="sf-t">Receipts come only from our system.</p></div>
+          </li>
+          <li class="sf-rule sf-warn" data-reveal>
+            <span class="sf-no" aria-hidden="true">03</span>
+            <Icon name="ban" class="sf-tick" />
+            <div class="sf-body"><p class="sf-t">Never pay into a personal account.</p></div>
+          </li>
+          <li class="sf-rule" data-reveal>
+            <span class="sf-no" aria-hidden="true">04</span>
+            <Icon name="shield" class="sf-tick" />
+            <div class="sf-body"><p class="sf-t">Visit our office in Ambalantota or Colombo.</p></div>
+          </li>
+          <li class="sf-rule" data-reveal>
+            <span class="sf-no" aria-hidden="true">05</span>
+            <Icon name="shield" class="sf-tick" />
+            <div class="sf-body">
+              <p class="sf-t">Check our licence on the SLBFE register.</p>
+              <a class="sf-link" href={SITE.registerUrl} target="_blank" rel="noopener">Check it<Icon name="external" /></a>
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <aside class="sf-side" aria-label="Our SLBFE licence">
+        <div class="sf-paper" data-reveal="scale">
+          <div class="sf-seal"><Shot name="seal" alt="Rathnaweera Foreign Employment Agency seal" sizes="112px" widths={[160, 320]} /></div>
+          <p class="sf-org">Rathnaweera Foreign Employment Agency</p>
+          <p class="sf-cap">SLBFE licence</p>
+          <p class="sf-lic"><Ph t="SLBFE licence no. from Janaka's certificate" /></p>
+          <p class="sf-why sf-desk">Check it opens the SLBFE register already filtered to our exact name.</p>
+          <p class="sf-why sf-phone">Check it opens the register filtered to our exact name.</p>
+          <a class="sf-btn" href={SITE.registerUrl} target="_blank" rel="noopener" data-sf-check>Check it<Icon name="external" /></a>
+          <p class="sf-pay sf-desk">Payment rules: <Ph t="in Janaka's words" /></p>
+          <p class="sf-pay sf-phone"><Ph t="payment rules in Janaka's words" /></p>
+        </div>
+        <figure class="sf-receipt" data-reveal>
+          <div class="sf-rimg"><Shot name="safety-receipt" icon="receipt" sizes="(min-width: 1100px) 420px, 92vw" /></div>
+          <figcaption>A receipt from our system, picture to follow</figcaption>
+        </figure>
+      </aside>
+    </div>
+  </div>
+</section>

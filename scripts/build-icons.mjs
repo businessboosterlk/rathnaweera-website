@@ -9,6 +9,7 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 const LINE = {            // our name    Lucide's file
   menu: 'menu', close: 'x', phone: 'phone', arrow: 'arrow-right', external: 'external-link',
   pin: 'map-pin', clock: 'clock', down: 'chevron-down', check: 'check', alert: 'circle-alert', file: 'file-text',
+  back: 'arrow-left', plane: 'plane', takeoff: 'plane-takeoff', shield: 'shield-check', badge: 'badge-check', stethoscope: 'stethoscope', training: 'graduation-cap', briefcase: 'briefcase', sign: 'pen-line', stamp: 'stamp', usercheck: 'user-check', play: 'play', pause: 'pause', receipt: 'receipt', banknote: 'banknote', building: 'building-2', globe: 'globe', map: 'map', users: 'users', user: 'user', camera: 'camera', clipboard: 'clipboard-check', list: 'clipboard-list', lock: 'lock', call: 'phone-call', mail: 'mail', right: 'chevron-right', left: 'chevron-left', plus: 'plus', minus: 'minus', calendar: 'calendar', landmark: 'landmark', ban: 'ban', video: 'video', quote: 'quote', okcircle: 'circle-check', warn: 'triangle-alert', idcard: 'id-card', book: 'book-open', send: 'send', passport: 'book-user', eye: 'eye', home: 'house', languages: 'languages', upright: 'arrow-up-right', up: 'arrow-up',
 };
 
 const inner = svg => svg.replace(/<!--[\s\S]*?-->/g, '').replace(/^[\s\S]*?<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '').replace(/\s*\n\s*/g, '').trim();

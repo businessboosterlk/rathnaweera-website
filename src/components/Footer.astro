@@ -1,0 +1,52 @@
+---
+// The footer and the phone Call and Apply bar. Two sibling roots, no wrapper: <footer> and .phonebar.
+// Deep navy with cream words, the seal, the same placeholders as the top line, then a large wordmark and the end row.
+// Gates rely on: `footer`, `.phonebar` (fixed, solid rgb background, its own layer) and Back to top landing at scrollY 0.
+import { Picture } from 'astro:assets';
+import Icon from './Icon.astro';
+import Ph from './Ph.astro';
+import { SITE } from '../config.js';
+import { img } from '../lib/img.js';
+import '../styles/footer.css';
+const seal = img('seal');
+const links = [['#jobs', 'Jobs open now'], ['#help', 'How we help'], ['#about', 'About us'], ['#contact', 'Contact']];
+const phones = ['Landline', 'Mobile 1', 'Mobile 2'];
+---
+<footer class="site-foot ft frame">
+  <div class="ft-grid">
+    <div class="ft-brand">
+      <span class="ft-mark">
+        {seal && <Picture src={seal} formats={['avif']} fallbackFormat="webp" widths={[96, 192]} sizes="64px" alt="" loading="lazy" class="ft-seal" />}
+        <span class="ft-name">Rathnaweera<span>Foreign Employment Agency</span></span>
+      </span>
+      <p class="ft-lic"><Icon name="shield" /><span>SLBFE licence <Ph t="SLBFE licence no." /></span></p>
+      <a class="ft-check" href={SITE.registerUrl} target="_blank" rel="noopener">Check it on the SLBFE register<Icon name="external" /></a>
+    </div>
+    <div class="ft-col">
+      <h2 class="ft-h">Offices</h2>
+      {SITE.offices.map(o => <p class="ft-office"><Icon name="pin" /><span>{o.name}<span>{o.town}</span></span></p>)}
+    </div>
+    <div class="ft-col">
+      <h2 class="ft-h">Read</h2>
+      <ul class="ft-links">{links.map(([h, t]) => <li><a class="ft-link" href={h}>{t}<Icon name="arrow" /></a></li>)}</ul>
+    </div>
+    <div class="ft-col">
+      <h2 class="ft-h">Our only numbers</h2>
+      <ul class="ft-nums">{phones.map(l => <li><Ph t={l} /></li>)}</ul>
+    </div>
+    <div class="ft-col">
+      <h2 class="ft-h">Legal</h2>
+      <ul class="ft-nums"><li><Ph t="Privacy notice" /></li><li><Ph t="Complaints" /></li></ul>
+    </div>
+  </div>
+  <p class="ft-word" data-rise aria-hidden="true">Rathnaweera</p>
+  <div class="ft-end">
+    <Ph t="Legal name, if shown" />
+    <p>© 2026 Rathnaweera Foreign Employment Agency</p>
+    <a class="ft-top" href="#top">Back to top<Icon name="up" /></a>
+  </div>
+</footer>
+<div class="phonebar" aria-label="Quick actions">
+  <a class="btn outline" href="#contact"><Icon name="phone" />Call</a>
+  <a class="btn" href="#apply">Apply<Icon name="arrow" /></a>
+</div>

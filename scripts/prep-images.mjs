@@ -6,17 +6,21 @@
 // and approved-storyboard/assets/seal.png) is the version from before the repair. This script refuses it by its hash.
 import sharp from 'sharp';
 import { createHash } from 'node:crypto';
-import { readFileSync, writeFileSync, mkdirSync, statSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, statSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { homedir } from 'node:os';
 
-const HANDOFF = process.argv[2] || join(homedir(), 'Downloads/RATHNAWEERA-WEBSITE/handoff-clear-assurance/rathnaweera-handoff');
-const SEAL = process.argv[3] || join(homedir(), 'Downloads/RATHNAWEERA-BRAND/Rathnaweera-Logo.png');
+const ARGS = process.argv.slice(2).filter(a => !a.startsWith('--'));
+const HANDOFF = ARGS[0] || join(homedir(), 'Downloads/RATHNAWEERA-WEBSITE/handoff-clear-assurance/rathnaweera-handoff');
+const SEAL = ARGS[1] || join(homedir(), 'Downloads/RATHNAWEERA-BRAND/Rathnaweera-Logo.png');
 export const OLD_SEAL_SHA256 = 'e1352e0c6c3894bd96ac30ed451fdc2dd4888b4f4a67534d8791b9af6b25d2fa';
 export const REPAIRED_SEAL_SHA256 = '5f05315b7d4c67bcbcc4f37ee7e5a906f5fff3378360d7cbbfcc18b8d4880e4e';
 
+// `--scenes-only` remakes the pictures and leaves every seal file exactly as committed. It is for the day the brand
+// folder's logo has changed and nobody has yet said the site should follow: the seal check below still refuses.
+const SCENES_ONLY = process.argv.includes('--scenes-only');
 const sha = f => createHash('sha256').update(readFileSync(f)).digest('hex');
-const sealHash = sha(SEAL);
+const sealHash = SCENES_ONLY ? REPAIRED_SEAL_SHA256 : sha(SEAL);
 if (sealHash === OLD_SEAL_SHA256) { console.error('REFUSED  ' + SEAL + ' is the seal from before the 4 Nov repair.'); process.exit(1); }
 if (sealHash !== REPAIRED_SEAL_SHA256) { console.error('REFUSED  ' + SEAL + ' is not the repaired seal (hash ' + sealHash.slice(0, 12) + '). If the seal was repaired again, update REPAIRED_SEAL_SHA256 on purpose.'); process.exit(1); }
 
@@ -25,20 +29,42 @@ mkdirSync(OUT, { recursive: true });
 const log = [];
 const done = (f, note) => { const kb = Math.round(statSync(f).size / 1024); log.push(`${f}  ${kb} KB  ${note}`); };
 
-// Hero layers keep their alpha. Trim the empty margin so the box is the drawing.
+// NEW PICTURES DROP IN BY NAME (5 Nov 2026). A PNG in ~/Downloads/RATHNAWEERA-WEBSITE/new-images wins over the
+// handoff's stand-in of the same name. A name with no file anywhere is skipped and the page draws its quiet
+// stand-in panel (src/components/Shot.astro). Real photos of the agency come from real-photos as real-<name>.webp.
+const NEW = process.env.NEW_IMAGES || join(homedir(), 'Downloads/RATHNAWEERA-WEBSITE/new-images');
+const REAL = process.env.REAL_PHOTOS || join(homedir(), 'Downloads/RATHNAWEERA-WEBSITE/real-photos');
+const pick = (name, dirs, exts = ['png', 'jpg', 'jpeg', 'webp']) => { for (const d of dirs) for (const e of exts) { const f = join(d, name + '.' + e); if (existsSync(f)) return f; } return null; };
+const used = [];
+// Hero plane keeps its alpha. Trim the empty margin so the box is the drawing. (The globe is drawn from map data.)
 for (const [name, width] of [['hero-globe', 1100], ['hero-plane', 640]]) {
+  const src = pick(name, [NEW, join(HANDOFF, 'assets')]); if (!src) continue;
   const f = join(OUT, name + '.webp');
-  await sharp(join(HANDOFF, 'assets', name + '.png')).trim({ threshold: 1 }).resize({ width, withoutEnlargement: true })
-    .webp({ quality: 84, alphaQuality: 90, effort: 6 }).toFile(f);
-  done(f, 'alpha, trimmed');
+  await sharp(src).trim({ threshold: 1 }).resize({ width, withoutEnlargement: true }).webp({ quality: 84, alphaQuality: 90, effort: 6 }).toFile(f);
+  done(f, 'alpha, trimmed, from ' + (src.startsWith(NEW) ? 'new-images' : 'handoff')); used.push(name);
 }
-// Card scenes are opaque 4:3. 1000 px is the largest the page asks for at 2x.
-for (const n of ['driver', 'kitchen', 'security', 'housekeeper', 'waiter', 'cleaner'].map(x => 'job-' + x)
-  .concat(['kuwait', 'qatar', 'uae', 'saudi-arabia', 'oman', 'bahrain'].map(x => 'country-' + x))) {
+// Scenes are opaque and cut to 4:3 (ChatGPT gives 3:2, the handoff gave 4:3). 1000 px is the largest the page asks for at 2x.
+const SCENES = ['driver', 'kitchen', 'security', 'housekeeper', 'waiter', 'cleaner'].map(x => 'job-' + x)
+  .concat(['kuwait', 'qatar', 'uae', 'saudi-arabia', 'oman', 'bahrain'].map(x => 'country-' + x))
+  .concat(['step-1-registered', 'step-2-medical', 'step-3-training', 'step-4-job-offer', 'step-5-agreement', 'step-6-visa', 'step-7-sent-abroad'])
+  .concat(['safety-receipt', 'guide-documents', 'guide-legal-steps', 'guide-videos']);
+for (const n of SCENES) {
+  const src = pick(n, [NEW, join(HANDOFF, 'assets')]); if (!src) continue;
   const f = join(OUT, n + '.webp');
-  await sharp(join(HANDOFF, 'assets', n + '.png')).resize({ width: 1000 }).webp({ quality: 80, effort: 6 }).toFile(f);
-  done(f, 'opaque 4:3');
+  await sharp(src).resize({ width: 1000, height: 750, fit: 'cover' }).webp({ quality: 80, effort: 6 }).toFile(f);
+  done(f, 'opaque 4:3, from ' + (src.startsWith(NEW) ? 'new-images' : 'handoff')); used.push(n);
 }
+// Upright 2:3 panel beside the form.
+{ const src = pick('apply-callback', [NEW]); if (src) { const f = join(OUT, 'apply-callback.webp');
+  await sharp(src).resize({ width: 900, height: 1350, fit: 'cover' }).webp({ quality: 80, effort: 6 }).toFile(f); done(f, 'upright 2:3, from new-images'); used.push('apply-callback'); } }
+// Real photos of the agency. Never an AI picture: these show Rathnaweera itself.
+for (const [n, w, h] of [['janaka', 1200, 1500], ['team', 1800, 1200], ['office-ambalantota', 2400, 1350], ['office-colombo', 1600, 1067],
+  ['staff-1', 800, 800], ['staff-2', 800, 800], ['staff-3', 800, 800], ['staff-4', 800, 800]]) {
+  const src = pick(n, [REAL]); if (!src) continue;
+  const f = join(OUT, 'real-' + n + '.webp');
+  await sharp(src).rotate().resize({ width: w, height: h, fit: 'cover', withoutEnlargement: true }).webp({ quality: 80, effort: 6 }).toFile(f); done(f, 'real photo'); used.push('real-' + n);
+}
+if (!SCENES_ONLY) {
 // The repaired seal: page mark, favicon, apple touch icon, share image.
 const seal = sharp(SEAL).trim({ threshold: 1 });
 const sealBuf = await seal.png().toBuffer();
@@ -50,5 +76,6 @@ const mark = await sharp(sealBuf).resize(420, 420, { fit: 'contain', background:
 await sharp({ create: { width: 1200, height: 630, channels: 3, background: '#ffffff' } })
   .composite([{ input: mark, top: 105, left: 390 }]).jpeg({ quality: 86 }).toFile(join(PUB, 'og.jpg')); done(join(PUB, 'og.jpg'), 'share image, seal on white');
 
-writeFileSync(join(OUT, 'SOURCE.json'), JSON.stringify({ made_by: 'scripts/prep-images.mjs', seal_source: SEAL.replace(homedir(), '~'), seal_sha256: sealHash, handoff: HANDOFF.replace(homedir(), '~') }, null, 1) + '\n');
+}
+if (!SCENES_ONLY) writeFileSync(join(OUT, 'SOURCE.json'), JSON.stringify({ made_by: 'scripts/prep-images.mjs', seal_source: SEAL.replace(homedir(), '~'), seal_sha256: sealHash, handoff: HANDOFF.replace(homedir(), '~') }, null, 1) + '\n');
 console.log(log.join('\n'));

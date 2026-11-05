@@ -35,10 +35,13 @@ const ld = {
   <meta property="og:url" content={canonical} />
   <meta property="og:image" content={new URL(url('og.jpg'), Astro.site).href} />
   <meta name="twitter:card" content="summary_large_image" />
+  <script is:inline>document.documentElement.classList.add('js');setTimeout(function(){if(!window.__rv)document.documentElement.classList.add('reveal-all')},3500)</script>
   <script type="application/ld+json" set:html={JSON.stringify(ld)} />
 </head>
 <body>
   <div class="statusfill" aria-hidden="true"></div>
+  <div class="progress" data-progress aria-hidden="true"></div>
   <slot />
+  <script>import '../scripts/reveal.js'; import '../scripts/motion.js';</script>
 </body>
 </html>

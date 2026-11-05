@@ -1,0 +1,100 @@
+/* HOW IT WORKS (prefix st-). A rail of seven stops and one large panel. stages.js sets --st-l and --st-w (the
+   line from the first stop's centre to the last), --st-f (how much of it is gold) and --st-x (the plane). */
+@property --st-p{syntax:'<number>';inherits:false;initial-value:1}
+.st{background:var(--paper);padding-block:clamp(72px,9vw,140px)}
+.st .st-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px 32px;margin-bottom:clamp(28px,3.4vw,48px)}
+.st .st-h2{font:400 clamp(40px,4.8vw,76px)/1.04 var(--display);letter-spacing:-.03em;color:var(--navy);margin:0}
+.st .st-lead{margin:0;color:var(--muted);font-size:17px;line-height:1.6;max-width:30em}
+.st .st-desk{display:none}
+
+/* the rail */
+.st .st-railbox{margin-inline:calc(-1 * var(--gut))}
+html:not(.js) .st .st-railbox,html:not(.js) .st .st-ctrl{display:none}
+.st .st-rail{position:relative;display:flex;gap:0;padding:0 var(--gut) 6px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;
+  overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scroll-padding-inline:var(--gut)}
+.st .st-rail::-webkit-scrollbar{display:none}
+@media (max-width:759px){.st .st-rail{-webkit-mask:linear-gradient(90deg,transparent,#000 14px,#000 calc(100% - 28px),transparent);mask:linear-gradient(90deg,transparent,#000 14px,#000 calc(100% - 28px),transparent)}}
+.st .st-line{position:absolute;top:70px;left:var(--st-l,0);width:var(--st-w,0);height:2px;margin-top:-1px;background:var(--line);border-radius:2px;pointer-events:none}
+.st .st-fill{position:absolute;inset:0;background:var(--gold);transform-origin:0 50%;transform:scaleX(var(--st-f,0));transition:transform .8s var(--ease)}
+.st .st-plane{position:absolute;top:4px;left:0;width:30px;height:30px;display:grid;place-items:center;color:var(--gold);pointer-events:none;
+  transform:translateX(var(--st-x,0));transition:transform .8s var(--ease)}
+.st .st-plane .ic{width:22px;height:22px;stroke-width:1.6;transform:rotate(45deg)}
+.st .st-stop{position:relative;flex:0 0 100px;scroll-snap-align:center;display:flex;flex-direction:column;align-items:center;gap:12px;padding:44px 4px 6px;
+  border:0;background:none;color:var(--muted);font:inherit;cursor:pointer;-webkit-user-select:none;user-select:none;touch-action:manipulation}
+.st .st-stop:focus-visible{outline:none}
+.st .st-stop:focus-visible .st-ring{outline:2px solid var(--gold);outline-offset:8px}
+.st .st-ring{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;background:var(--paper);
+  border:1.5px solid var(--line);color:var(--navy);transition:background-color .4s var(--ease),border-color .4s var(--ease),color .4s,transform .45s var(--spring)}
+.st .st-num{display:block;transform:translateY(.7px);font:600 17px/1 var(--body);font-variant-numeric:lining-nums tabular-nums}
+.st .st-ring::before{content:"";position:absolute;inset:-7px;border-radius:50%;opacity:0;transition:opacity .3s;
+  background:conic-gradient(var(--gold) calc(var(--st-p) * 360deg),color-mix(in srgb,var(--gold) 22%,transparent) 0);
+  -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2.5px));mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2.5px))}
+.st .st-label{font:600 13px/1.3 var(--body);text-align:center;max-width:96px;transition:color .3s}
+.st .st-stop.is-done .st-ring{border-color:var(--gold);color:var(--navy)}
+.st .st-stop[aria-selected="true"]{color:var(--navy)}
+.st .st-stop[aria-selected="true"] .st-ring{background:var(--navy);border-color:var(--navy);color:#fff;transform:scale(1.08)}
+/* the chosen ring is drawn 8 per cent larger: its numeral read 0.67px low by pixels, so its nudge is smaller */
+.st .st-stop[aria-selected="true"] .st-num{transform:translateY(.1px)}
+.st .st-stop[aria-selected="true"] .st-ring::before{opacity:1}
+.st.is-playing .st-stop[aria-selected="true"] .st-ring::before{animation:st-prog var(--st-dur,4.2s) linear both}
+.st.is-playing.is-held .st-stop[aria-selected="true"] .st-ring::before{animation-play-state:paused}
+@keyframes st-prog{from{--st-p:0}to{--st-p:1}}
+
+/* the panel */
+.st .st-stage{position:relative;margin-top:18px;padding:clamp(16px,2.4vw,36px);border-radius:var(--r);background:var(--warm);border:1px solid var(--line)}
+.st .st-panels{list-style:none;margin:0;padding:0;display:grid;gap:40px}
+html.js .st .st-panels{gap:0;touch-action:pan-y}
+html.js .st .st-panel{grid-area:1/1}
+html.js .st .st-panel:not(.is-on):not(.is-leaving){visibility:hidden;opacity:0;pointer-events:none}
+.st .st-panel{display:grid;gap:22px;align-items:center;min-width:0}
+.st .st-pic{aspect-ratio:16/10;border-radius:var(--r-sm);overflow:hidden;background:var(--navy)}
+.st .st-pic img{width:100%;height:100%;object-fit:cover}
+.st .st-copy{min-width:0}
+.st .st-count{display:flex;align-items:flex-end;gap:14px;margin:0 0 8px}
+.st .st-big{font:400 clamp(72px,8vw,132px)/.78 var(--display);color:var(--gold);letter-spacing:-.04em}
+.st .st-of{font:600 13px/1.2 var(--body);color:var(--muted);padding-bottom:4px}
+.st .st-title{font:400 clamp(30px,3vw,48px)/1.08 var(--display);letter-spacing:-.02em;color:var(--navy);margin:14px 0 10px}
+.st .st-text{font-size:18px;line-height:1.55;color:var(--ink);margin:0 0 22px;max-width:30em}
+.st .st-facts{margin:0;display:grid;gap:0}
+.st .st-facts div{padding:13px 0;border-top:1px solid var(--line)}
+.st .st-facts dt{display:flex;align-items:center;gap:9px;font:600 14px/1.3 var(--body);color:var(--navy)}
+.st .st-facts dt .ic{color:var(--gold)}
+.st .st-facts dd{margin:6px 0 0 27px;color:var(--muted);font-size:15px}
+
+.st .st-ctrl{display:flex;align-items:center;gap:10px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
+.st .st-btn{display:grid;place-items:center;width:48px;height:48px;border-radius:50%;border:1px solid color-mix(in srgb,var(--line) 82%,var(--navy));background:var(--paper);color:var(--navy);cursor:pointer;
+  transition:transform .15s var(--ease),background-color .2s,color .2s,border-color .2s;-webkit-user-select:none;user-select:none}
+.st .st-btn .ic{width:20px;height:20px}
+.st .st-btn:active{transform:scale(.94)}
+.st .st-btn:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.st .st-play .st-i-play,.st.is-playing .st-play .st-i-pause{display:block}
+.st .st-play .st-i-pause,.st.is-playing .st-play .st-i-play{display:none}
+.st .st-where{margin:0 0 0 auto;font:600 14px/1 var(--body);color:var(--muted);font-variant-numeric:tabular-nums}
+.st .st-where span{color:var(--navy)}
+
+.st .st-time{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:26px 0 0;color:var(--muted)}
+.st .st-time .ic{color:var(--gold)}
+
+@media (hover:hover){
+  .st .st-stop:not([aria-selected="true"]):hover .st-ring{border-color:var(--navy);transform:translateY(-3px)}
+  .st .st-stop:hover{color:var(--navy)}
+  .st .st-btn:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
+}
+@media (min-width:760px){
+  .st .st-desk{display:block}
+  .st .st-phone{display:none}
+  .st .st-railbox{margin-inline:0}
+  .st .st-rail{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));padding:0 0 6px;overflow:visible}
+  .st .st-stop{flex:none;min-width:0}
+  .st .st-label{max-width:120px;font-size:14px}
+}
+@media (min-width:1100px){
+  .st .st-panel{grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);gap:clamp(36px,4vw,72px)}
+  .st .st-pic{aspect-ratio:5/4}
+  .st .st-ctrl{position:absolute;right:clamp(16px,2.4vw,36px);bottom:clamp(16px,2.4vw,36px);margin:0;padding:0;border:0;
+    width:calc((100% - 2 * clamp(16px,2.4vw,36px) - clamp(36px,4vw,72px)) * 1 / 2.08)}
+  .st .st-copy{padding-bottom:76px}
+}
+@media (prefers-reduced-motion:reduce){
+  .st .st-fill,.st .st-plane,.st .st-ring,.st .st-label{transition:none}
+}

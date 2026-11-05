@@ -1,0 +1,9 @@
+/* THE MOVING BAND (prefix tk-). One row, two copies, moved by transform only; the edges fade out. */
+.tk{overflow:hidden;background:var(--warm);border-block:1px solid var(--line);padding-block:clamp(18px,2.2vw,30px);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent)}
+.tk-row{display:flex;width:max-content;animation:tk-run 52s linear infinite}
+.tk-set{display:flex;align-items:center;flex:none;margin:0;padding:0;list-style:none}
+.tk-set li{display:flex;align-items:center;gap:clamp(22px,3vw,52px);padding-right:clamp(22px,3vw,52px);font:400 clamp(26px,3.4vw,54px)/1.15 var(--display);letter-spacing:-.02em;color:var(--navy);white-space:nowrap}
+.tk .tk-set .ic{width:.55em;height:.55em;color:var(--gold);stroke-width:1.5}
+@keyframes tk-run{to{transform:translate3d(-50%,0,0)}}
+@media (hover:hover){.tk:hover .tk-row{animation-play-state:paused}}

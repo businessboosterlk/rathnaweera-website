@@ -1,0 +1,125 @@
+---
+// APPLY NOW (id apply). A two step form preview that SENDS NOTHING: no action, no fetch, submit stopped in
+// src/scripts/apply.js (was site.js section 6, same field names, messages and hooks; bb_pending 1242).
+// Left: the upright call back picture and three reassurances. Right: the form card with a stepper.
+import '../styles/apply.css';
+import Icon from './Icon.astro';
+import Ph from './Ph.astro';
+import Shot from './Shot.astro';
+const countries = [
+  { key: 'kuwait', name: 'Kuwait' }, { key: 'qatar', name: 'Qatar' }, { key: 'uae', name: 'United Arab Emirates' },
+  { key: 'saudi', name: 'Saudi Arabia' }, { key: 'oman', name: 'Oman' }, { key: 'bahrain', name: 'Bahrain' },
+];
+// SAMPLE jobs, the same keys and titles as the job cards (bb_pending 1241, 1256).
+const jobs = [
+  { key: 'driver', title: 'House driver' }, { key: 'kitchen', title: 'Kitchen helper' }, { key: 'security', title: 'Security guard' },
+  { key: 'housekeeper', title: 'Housekeeper' }, { key: 'waiter', title: 'Waiter' }, { key: 'cleaner', title: 'Cleaner' },
+];
+---
+<section class="ap frame" id="apply" aria-labelledby="apply-h">
+  <div class="ap-grid">
+    <div class="ap-side">
+      <h2 id="apply-h" class="ap-h" data-reveal>Apply now</h2>
+      <div class="ap-intro">
+        <div class="ap-pic" data-reveal="scale">
+          <Shot name="apply-callback" icon="call" sizes="(min-width: 1100px) 300px, (min-width: 760px) 240px, 132px" widths={[240, 400, 640]} />
+        </div>
+        <ul class="ap-points" data-stagger>
+          <li data-reveal>
+            <span class="ap-pi"><Icon name="clock" /></span>
+            <div>
+              <p class="ap-pt">It takes about two minutes. We ask:</p>
+              <ul class="ap-asks ap-desk">
+                <li>Your name</li><li>Your mobile number</li><li>The country and the job you want</li><li>Your NIC and passport number, if you have them</li>
+              </ul>
+              <ul class="ap-asks ap-phone">
+                <li>Your name and mobile number</li><li>The country and job you want</li><li>NIC and passport number, if you have them</li>
+              </ul>
+            </div>
+          </li>
+          <li data-reveal>
+            <span class="ap-pi"><Icon name="lock" /></span>
+            <div><p class="ap-pt">Nothing is uploaded.</p><p class="ap-ps">Bring your passport and NIC to the office.</p></div>
+          </li>
+          <li data-reveal>
+            <span class="ap-pi"><Icon name="call" /></span>
+            <div><p class="ap-pt">A staff member calls you the next working morning.</p><p class="ap-ps"><Ph t="call back wording and hours from Janaka" /></p></div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <form class="ap-card" method="post" novalidate data-apply-form aria-labelledby="form-h" data-reveal="right">
+      <p class="ap-note"><Icon name="alert" />Staging preview. This form sends nothing yet.</p>
+      <ol class="ap-stepper" aria-hidden="true" data-ap-stepper data-at="1">
+        <li data-ap-stage="1"><span class="ap-dot"><b>1</b><Icon name="check" /></span><span class="ap-sl">About you</span></li>
+        <li data-ap-stage="2"><span class="ap-dot"><b>2</b><Icon name="check" /></span><span class="ap-sl">The job you want</span></li>
+        <li data-ap-stage="done"><span class="ap-dot"><b>3</b><Icon name="check" /></span><span class="ap-sl">Done</span></li>
+      </ol>
+      <div class="ap-bar" aria-hidden="true"><span data-ap-bar></span></div>
+
+      <div class="ap-view" data-ap-view>
+        <div class="ap-step" data-step="1">
+          <h3 id="form-h" class="ap-st">Step 1 of 2: about you</h3>
+          <p class="ap-picked" data-picked hidden></p>
+          <label class="ap-f">Full name
+            <span class="ap-in"><input name="full_name" autocomplete="name" required placeholder="Your name" enterkeyhint="next" /><Icon name="check" class="ap-ok" /></span>
+          </label>
+          <label class="ap-f">Mobile number
+            <span class="ap-in"><input name="phone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="07x xxx xxxx" enterkeyhint="next" /><Icon name="check" class="ap-ok" /></span>
+          </label>
+          <p class="ap-err" data-err="1" role="alert" hidden></p>
+          <button class="ap-btn ap-next" type="button" data-next disabled>Next: the job you want<Icon name="arrow" /></button>
+        </div>
+
+        <div class="ap-step" data-step="2" hidden>
+          <h3 class="ap-st">Step 2 of 2: the job you want</h3>
+          <div class="ap-f ap-cty">
+            <span class="ap-lab" id="ap-cty-l" aria-hidden="true">Country</span>
+            <div class="ap-chips" role="group" aria-labelledby="ap-cty-l" data-ap-chips>
+              <button class="ap-chip" type="button" data-ap-chip="" aria-pressed="true">Any country</button>
+              {countries.map(c => <button class="ap-chip" type="button" data-ap-chip={c.key} aria-pressed="false">{c.name}</button>)}
+            </div>
+            <label class="ap-cty-sel">Country
+              <span class="ap-in ap-sel"><select name="country_wanted"><option value="">Any country</option>{countries.map(c => <option value={c.key}>{c.name}</option>)}</select><Icon name="down" class="ap-chev" /></span>
+            </label>
+          </div>
+          <label class="ap-f">Job
+            <span class="ap-in ap-sel"><select name="job_wanted"><option value="">Any job</option>{jobs.map(j => <option value={j.key}>{j.title}</option>)}</select><Icon name="down" class="ap-chev" /></span>
+          </label>
+          <p class="ap-hint">SAMPLE lists until the real jobs list is ready.</p>
+          <div class="ap-two">
+            <label class="ap-f">NIC number, if you have it
+              <span class="ap-in"><input name="nic" autocomplete="off" placeholder="200012345678" inputmode="text" autocapitalize="characters" spellcheck="false" enterkeyhint="next" /><Icon name="check" class="ap-ok" /></span>
+            </label>
+            <label class="ap-f">Passport number, if you have it
+              <span class="ap-in"><input name="passport_no" autocomplete="off" placeholder="N1234567" autocapitalize="characters" spellcheck="false" enterkeyhint="go" /><Icon name="check" class="ap-ok" /></span>
+            </label>
+          </div>
+          <p class="ap-docs" data-docs-line hidden></p>
+          <label class="ap-consent">
+            <input type="checkbox" name="consent" value="yes" required />
+            <span class="ap-box" aria-hidden="true"><Icon name="check" /></span>
+            <span>You may call me about this application. <Ph t="Privacy notice, waits for approval" /></span>
+          </label>
+          <label class="hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off" /></label>
+          <p class="ap-err" data-err="2" role="alert" hidden></p>
+          <div class="ap-actions">
+            <button class="ap-btn" type="submit" data-submit disabled>Send my application<Icon name="send" /></button>
+            <button class="ap-link" type="button" data-back><Icon name="left" />Back to step 1</button>
+          </div>
+        </div>
+
+        <div class="ap-step ap-done" data-step="done" hidden tabindex="-1">
+          <span class="ap-seal" aria-hidden="true"><Icon name="okcircle" class="ap-done-tick" /></span>
+          <h3 class="ap-st">Nothing was sent</h3>
+          <p class="ap-dp">This is the staging preview, so nothing was sent or saved. When the form goes live, this is what the agency would receive:</p>
+          <dl class="ap-sum" data-summary></dl>
+          <p class="ap-where">Where applications go: <Ph t="waits for the decision on form delivery" /></p>
+          <button class="ap-btn ap-ghost" type="button" data-restart><Icon name="back" />Start again</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <script>import '../scripts/apply.js';</script>
+</section>

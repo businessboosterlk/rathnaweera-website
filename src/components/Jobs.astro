@@ -1,0 +1,86 @@
+---
+// JOBS OPEN NOW. Six SAMPLE cards, never live vacancies (bb_pending 1241, 1256). The country filter keeps the
+// behaviour it had in site.js: one history entry per choice, Back undoes it, Show all clears it. The filter chips
+// here and the "See jobs in ..." links in the world map share the data-country-tile hook. Behaviour: jobs.js.
+import '../styles/jobs.css';
+import Icon from './Icon.astro';
+import Ph from './Ph.astro';
+import Shot from './Shot.astro';
+
+const countries = [
+  { key: 'kuwait', name: 'Kuwait' },
+  { key: 'qatar', name: 'Qatar' },
+  { key: 'uae', name: 'United Arab Emirates' },
+  { key: 'saudi', name: 'Saudi Arabia' },
+  { key: 'oman', name: 'Oman' },
+  { key: 'bahrain', name: 'Bahrain' },
+];
+const cname = k => countries.find(c => c.key === k).name;
+const jobs = [
+  { key: 'driver', title: 'House driver', country: 'kuwait', places: 4, img: 'job-driver', icon: 'briefcase' },
+  { key: 'kitchen', title: 'Kitchen helper', country: 'qatar', places: 10, img: 'job-kitchen', icon: 'briefcase' },
+  { key: 'security', title: 'Security guard', country: 'uae', places: 6, img: 'job-security', icon: 'shield' },
+  { key: 'housekeeper', title: 'Housekeeper', country: 'oman', places: 8, img: 'job-housekeeper', icon: 'home' },
+  { key: 'waiter', title: 'Waiter', country: 'bahrain', places: 3, img: 'job-waiter', icon: 'briefcase' },
+  { key: 'cleaner', title: 'Cleaner', country: 'saudi', places: 12, img: 'job-cleaner', icon: 'briefcase' },
+];
+const sizes = '(min-width: 1100px) 31vw, (min-width: 760px) 46vw, 92vw';
+---
+<section class="jb" id="jobs" aria-labelledby="jobs-h">
+  <div class="jb-in frame">
+    <div class="jb-head section-head">
+      <div class="jb-titles" data-reveal>
+        <h2 class="jb-h2" id="jobs-h">Jobs open now</h2>
+        <p class="jb-lead jb-desk">Tap a country below to see only its jobs. Who updates this list and how often: <Ph t="waits for Janaka" /></p>
+        <p class="jb-lead jb-phone">Tap a country to see only its jobs.</p>
+      </div>
+      <button class="jb-all jb-link" type="button" data-show-all data-reveal="fade">See all jobs<Icon name="arrow" /></button>
+    </div>
+
+    <div class="jb-bar" data-reveal="fade">
+      <div class="jb-chips" role="group" aria-label="Show jobs by country" data-jb-chips>
+        <span class="jb-ind" aria-hidden="true"></span>
+        <button class="jb-chip" type="button" data-show-all data-jb-all aria-pressed="true">All jobs</button>
+        {countries.map(c => <button class="jb-chip" type="button" data-country-tile={c.key} data-name={c.name} aria-pressed="false">{c.name}</button>)}
+      </div>
+    </div>
+
+    <p class="jb-filter filter-line" data-filter-line hidden aria-live="polite"><Icon name="pin" /><span data-filter-text></span> <button class="jb-link" type="button" data-show-all>Show all</button></p>
+
+    <div class="jobs jb-grid" data-stagger>
+      {jobs.map(j => (
+        <article class="job jb-card" data-country={j.country} data-reveal>
+          <div class="jb-inner">
+            <div class="jb-pic">
+              <Shot name={j.img} icon={j.icon} sizes={sizes} widths={[400, 640, 900]} />
+              <span class="sample jb-sample">SAMPLE</span>
+            </div>
+            <div class="jb-body">
+              <p class="jb-country"><Icon name="pin" />{cname(j.country)}</p>
+              <h3 class="jb-title">{j.title}</h3>
+              <ul class="jb-meta">
+                <li><Icon name="users" />{j.places} places</li>
+                <li><Icon name="file" />2 year contract</li>
+                <li><Icon name="clock" />Closes <Ph t="date" /></li>
+              </ul>
+              <a class="jb-apply" href="#apply" data-apply-job={j.key} data-apply-country={j.country}>Apply for this job<Icon name="arrow" /></a>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="jb-empty" data-reveal>
+      <p class="jb-example">Example: what this space says when no job is open</p>
+      <div class="jb-empty-in">
+        <span class="jb-empty-ic"><Icon name="briefcase" /></span>
+        <div>
+          <h3>When no job is open</h3>
+          <p>No jobs are open right now. Check your documents with the list below and call us. We will tell you when your country opens.</p>
+          <a class="jb-link" href="#ready">Am I ready to apply?<Icon name="arrow" /></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>import '../scripts/jobs.js';</script>

@@ -1,0 +1,70 @@
+---
+// HOW IT WORKS: seven stages as a journey the visitor can press and explore. A rail of seven numbered stops on a
+// gold line (tabs), one large panel per stage (tab panels). It plays by itself while in view and stops for good
+// once the visitor presses a stop, an arrow or swipes. Without JavaScript the seven stages are simply listed in
+// order. Behaviour: stages.js. Facts that wait for Janaka stay placeholders.
+import '../styles/stages.css';
+import Icon from './Icon.astro';
+import Ph from './Ph.astro';
+import Shot from './Shot.astro';
+
+const steps = [
+  ['Registered', 'You register at one of our offices.', 'step-1-registered', 'clipboard'],
+  ['Medical', 'You complete the medical check.', 'step-2-medical', 'stethoscope'],
+  ['SLBFE Training', 'You attend the SLBFE training.', 'step-3-training', 'training'],
+  ['Job Offer', 'An employer offers you the job.', 'step-4-job-offer', 'briefcase'],
+  ['Agreement Signed', 'You sign the agreement.', 'step-5-agreement', 'sign'],
+  ['Visa', 'Your visa is processed.', 'step-6-visa', 'passport'],
+  ['Sent Abroad', 'You travel to your job.', 'step-7-sent-abroad', 'takeoff'],
+];
+---
+<section class="st" id="steps" aria-labelledby="steps-h" data-st>
+  <div class="st-in frame">
+    <div class="st-head">
+      <h2 class="st-h2" id="steps-h" data-reveal>How it works</h2>
+      <p class="st-lead st-desk" data-reveal>Seven steps from your first call to your flight.</p>
+      <p class="st-lead st-phone" data-reveal>Seven steps from first call to flight.</p>
+    </div>
+
+    <div class="st-railbox" data-reveal="fade">
+      <div class="st-rail" role="tablist" aria-label="The seven stages" data-st-rail>
+        <span class="st-line" aria-hidden="true"><span class="st-fill"></span></span>
+        <span class="st-plane" aria-hidden="true"><Icon name="plane" /></span>
+        {steps.map(([t], i) => (
+          <button class="st-stop" type="button" role="tab" id={`st-tab-${i}`} aria-controls={`st-panel-${i}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? '0' : '-1'} data-st-tab={i}>
+            <span class="st-ring"><span class="st-num">{i + 1}</span></span>
+            <span class="st-label">{t}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <div class="st-stage" data-st-stage data-reveal>
+      <ol class="st-panels">
+        {steps.map(([t, d, img, icon], i) => (
+          <li class="st-panel" id={`st-panel-${i}`} data-st-panel={i} aria-labelledby={`st-tab-${i}`}>
+            <div class="st-pic drift"><Shot name={img} icon={icon} sizes="(min-width: 1100px) 44vw, 92vw" widths={[400, 640, 900]} /></div>
+            <div class="st-copy">
+              <p class="st-count"><span class="st-big" aria-hidden="true">{i + 1}</span><span class="st-of">Step {i + 1} of 7</span></p>
+              <h3 class="st-title">{t}</h3>
+              <p class="st-text">{d}</p>
+              <dl class="st-facts">
+                <div><dt><Icon name="clipboard" />What to bring</dt><dd><Ph t="waits for Janaka" /></dd></div>
+                <div><dt><Icon name="clock" />How long this stage takes</dt><dd><Ph t="waits for Janaka" /></dd></div>
+              </dl>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <div class="st-ctrl">
+        <button class="st-btn" type="button" data-st-prev aria-label="Previous stage"><Icon name="left" /></button>
+        <button class="st-btn st-play" type="button" data-st-play aria-label="Pause the stages"><Icon name="pause" class="st-i-pause" /><Icon name="play" class="st-i-play" /></button>
+        <button class="st-btn" type="button" data-st-next aria-label="Next stage"><Icon name="right" /></button>
+        <p class="st-where" aria-live="polite"><span data-st-where>1</span> of 7</p>
+      </div>
+    </div>
+
+    <p class="st-time"><Icon name="clock" />Time from first call to flight: <Ph t="Janaka confirms the steps and the time" /></p>
+  </div>
+</section>
+<script>import '../scripts/stages.js';</script>

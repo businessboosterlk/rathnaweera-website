@@ -1,0 +1,27 @@
+---
+// QUESTIONS PEOPLE ASK (id faq). Eight SAMPLE questions as an accordion. Real details and summary, so it opens
+// without JavaScript; src/scripts/faq.js adds the eased height and keeps the turning plus in step.
+import '../styles/faq.css';
+import Icon from './Icon.astro';
+import Ph from './Ph.astro';
+const questions = ['Do I pay anything to apply?', 'How long does it take?', 'Is the agency licensed?', 'What documents do I need?', 'Will someone call me?', 'Can I visit the office?', 'Which countries do you send to?', 'What if I have no passport yet?'];
+const pad = n => String(n).padStart(2, '0');
+---
+<section class="fq frame" id="faq" aria-labelledby="faq-h">
+  <div class="fq-grid">
+    <header class="fq-head" data-reveal>
+      <h2 id="faq-h" class="fq-h">Questions people ask</h2>
+      <p class="fq-lead fq-desk"><span class="sample">SAMPLE</span> questions. The six to eight real ones come from the questions Janaka's staff hear most.</p>
+      <p class="fq-lead fq-phone"><span class="sample">SAMPLE</span> questions. Janaka's staff give the real six to eight.</p>
+    </header>
+    <div class="fq-list" data-fq data-stagger>
+      {questions.map((q, i) => (
+        <details class={i > 5 ? 'fq-item fq-deskonly' : 'fq-item'} open={i === 0} data-reveal>
+          <summary class="fq-q"><span class="fq-n" aria-hidden="true">{pad(i + 1)}</span><span class="fq-qt">{q}</span><span class="fq-pm" aria-hidden="true"><Icon name="plus" /></span></summary>
+          <div class="fq-a"><p>{i === 0 ? <Ph t="answer waits for Janaka: SLBFE sets what an agency may charge" /> : <Ph t="answer waits for Janaka" />}</p></div>
+        </details>
+      ))}
+    </div>
+  </div>
+  <script>import '../scripts/faq.js';</script>
+</section>

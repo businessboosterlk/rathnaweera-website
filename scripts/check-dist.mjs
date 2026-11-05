@@ -35,6 +35,20 @@ ok('gold dashed placeholders kept (' + ph + ')', ph >= 40);
 ok('Stage 2 is not on the page', !/Departures and stories|Stage 2/.test(html));
 ok('404, sitemap and llms.txt built', ['404.html', 'sitemap.xml', 'llms.txt'].every(f => existsSync(join(D, f))));
 
+/* the page made of components (5 Nov 2026): the globe's picture, the map's data and the script all stay light */
+const kb = f => existsSync(f) ? Math.round(statSync(f).size / 1024) : -1;
+ok('the globe picture is there and under 200 KB (' + kb('public/assets/earth.webp') + ' KB)', kb('public/assets/earth.webp') >= 0 && statSync('public/assets/earth.webp').size < 200 * 1024);
+ok('the world map data is under 70 KB (' + kb('src/data/world-map.json') + ' KB)', existsSync('src/data/world-map.json') && statSync('src/data/world-map.json').size < 70 * 1024);
+const js = files.filter(f => /\.m?js$/.test(f)), jsBytes = js.reduce((n, f) => n + statSync(f).size, 0);
+ok('all the script in the build is under 100 KB (' + Math.round(jsBytes / 1024) + ' KB in ' + js.length + ' files)', jsBytes < 100 * 1024);
+/* a preview that sends nothing: no script in the build or the page can reach out on its own */
+const callers = [...js, join(D, 'index.html')].filter(f => /\bfetch\(|XMLHttpRequest|sendBeacon/.test(readFileSync(f, 'utf8'))).map(f => f + ' ' + (readFileSync(f, 'utf8').match(/.{0,40}(\bfetch\(|XMLHttpRequest|sendBeacon).{0,40}/) || [''])[0]);
+ok('no fetch, XMLHttpRequest or sendBeacon in any built script or the page', !callers.length, callers.join(' | '));
+/* every icon comes from the icon set and the map from its data, never drawn by hand in a component (the two
+   builders are the only places allowed; generated data such as icons.json is not code and is not read here) */
+const drawn = walk('src').filter(f => /\.(astro|m?js|ts|css)$/.test(f) && !/src\/lib\/(icon|worldmap)\.js$/.test(f)).filter(f => /<svg|<path d=/.test(readFileSync(f, 'utf8')));
+ok('no hand drawn <svg or <path d= in src outside lib/icon.js and lib/worldmap.js', !drawn.length, drawn.join(', '));
+
 console.log(passes.map(p => 'PASS  ' + p).join('\n'));
-if (fails.length) { console.error(fails.map(f => 'FAIL  ' + f).join('\n')); process.exit(1); }
+if (fails.length) { console.error(fails.map(f => 'FAIL  ' + f).join('\n')); console.error('check-dist: FAIL ' + passes.length + ' of ' + (passes.length + fails.length)); process.exit(1); }
 console.log('check-dist: PASS ' + passes.length + ' of ' + passes.length);
