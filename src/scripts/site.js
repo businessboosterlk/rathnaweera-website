@@ -133,7 +133,7 @@ const step1 = () => {
   return fail('1', '');
 };
 const step2 = () => {
-  if (!nicOk(F('nic').value)) return fail('2', 'An NIC number has 12 digits, or 9 digits and a V or X.', F('nic'));
+  if (!nicOk(F('nic').value)) return fail('2', 'An NIC number has 12 digits. An older one has 9 digits and a V or X.', F('nic'));
   if (!F('consent').checked) return fail('2', 'Tick the box so we may call you.', F('consent'));
   return fail('2', '');
 };

@@ -150,7 +150,7 @@ for (const [size, viewport, touch] of SIZES) {
   await press('[data-next]');
   await page.selectOption('[name=country_wanted]', { index: 1 }); await page.selectOption('[name=job_wanted]', { index: 1 });
   await page.fill('[name=nic]', '123'); await press('[data-submit]');
-  ok(`${size}: a wrong NIC number is refused`, (await err('2')).includes('NIC'));
+  ok(`${size}: a wrong NIC number is refused`, (await err('2')).includes('NIC number'));
   await page.fill('[name=nic]', ''); await page.fill('[name=passport_no]', 'N1234567'); await press('[data-submit]');
   ok(`${size}: no consent tick, no summary`, (await err('2')).includes('Tick') && (await st()).step === '2');
   await press('[name=consent]'); await press('[data-submit]');
