@@ -63,6 +63,10 @@ for (const [size, viewport, touch] of SIZES) {
   await fresh();
   await page.evaluate(() => sessionStorage.removeItem('__pressed'));
   ok(`${size}: no console errors on load`, !errors.length, errors.join(' | '));
+  if (touch) {
+    const bg = await page.evaluate(() => getComputedStyle(document.querySelector('.phonebar')).backgroundColor);
+    ok(`${size}: the Call and Apply bar is solid, nothing shows through it`, /^rgb\(/.test(bg), bg);   /* rgba() means the hero's Apply ghosted through it on the iPhone */
+  }
 
   /* ALL: every touchpoint visible in any state of the page (menu open, each form step) */
   const all = new Set(await page.evaluate(() => window.__touchpoints()));
