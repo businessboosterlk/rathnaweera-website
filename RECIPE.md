@@ -1,7 +1,7 @@
 # RECIPE: Rathnaweera Foreign Employment Agency home page (staging)
 Kind: website
 Live: https://businessboosterlk.github.io/rathnaweera-website/ (staging preview, noindex, public repo https://github.com/businessboosterlk/rathnaweera-website, published 5 Nov 2026 on Thulaib's yes, bb_pending 1318)
-Live commit: 8eb1c17
+Live commit: 5095826
 Ignore: dist, node_modules, .astro, package-lock.json
 Watch: ~/Downloads/RATHNAWEERA-BRAND/Rathnaweera-Logo.png
 Last verified: 2026-11-05, by chat RATHNAWEERA WEBSITE 7 (live gates on the published address)
@@ -27,8 +27,9 @@ ON A PHONE the hero, every section heading and its lead are CENTRED and buttons 
 rule, Thulaib 29 Sep 2026). ON A DESK the brand sits hard left, Apply hard right and the hero words start on the
 brand's left edge (Thulaib's review, 5 Nov 2026). `device-views.mjs` reads both.
 Every fact the agency has not given (licence, phones, fees, salaries, years, counts, timelines) is a gold dashed
-placeholder and every sample carries a SAMPLE label. Every picture not yet supplied shows a stand in plate with the
-file name to send, and every real photo owed shows a PHOTO NEEDED frame. The word "licensed" and the Check it link
+placeholder and every sample carries a SAMPLE label. The scene pictures are in since 5 Nov 2026 (24 of 25: jobs,
+countries, stages, Apply, Safety and guides; the plane is still the handoff one). A picture that goes missing shows
+a stand in plate with the file name to send, and every real photo owed shows a PHOTO NEEDED frame. The word "licensed" and the Check it link
 are staging only because the SLBFE register shows no Rathnaweera (bb_pending 1255). Thulaib looked at build 8eb1c17 on 5 Nov 2026 and said it is good to show Janaka (bb_pending 1356).
 
 ## 2. Where the source lives
@@ -55,9 +56,15 @@ npx astro preview --port 4662 --host 127.0.0.1
 `--scenes-only` remakes the pictures and leaves the seal alone: the logo in the brand folder was remade on 5 Nov
 (hash starts fa47698675f5) and the plain `npm run images` refuses it until Thulaib decides (bb_pending 1330).
 Pictures are picked up BY FILE NAME from `~/Downloads/RATHNAWEERA-WEBSITE/new-images/` (the 25 made from
-`~/Downloads/RATHNAWEERA-WEBSITE/Rathnaweera-Image-Prompts-for-ChatGPT.md`, bb_pending 1331) and
+`~/Downloads/RATHNAWEERA-WEBSITE/Rathnaweera-Image-Prompts-for-ChatGPT.md`, bb_pending 1331, done 5 Nov 2026) and
 `~/Downloads/RATHNAWEERA-WEBSITE/real-photos/` (bb_pending 1332). A missing name shows a stand in, never a broken
-picture. `build-globe.mjs` makes `public/assets/earth.webp` (99 KB) and `build-map.mjs` makes
+picture. Thulaib's originals are in `~/Downloads/RFEA IMAGES WEB/` under ChatGPT's own names; chat 7 copied 24 of
+them into `new-images/` under the site names on 5 Nov 2026. Nine came as a square scene padded out to 3:2 with a
+blurred copy of itself, so `prep-images.mjs` cuts each of those to its clean middle (the CUT table) before it makes
+the master. The plane cut-out (`01_aircraft_transparent.png`) has a blocky white fringe and was NOT used: the page
+keeps the handoff plane until a clean one is made (bb_pending 1400). Six pictures carry a focus point
+(`FOCUS` in `src/lib/img.js`) so a wide or upright slot keeps the subject in frame. To look at every picture in its
+real slot after a change, photograph the slots at 390 and 1440 and read the sheets before anything is pushed. `build-globe.mjs` makes `public/assets/earth.webp` (99 KB) and `build-map.mjs` makes
 `src/data/world-map.json` (42 KB) from Natural Earth data; both outputs are committed, so the deploy needs neither.
 Astro allows one dev server per repo: a second needs `--ignore-lock`.
 
@@ -84,7 +91,24 @@ x" became "hero heading centred within 1.5px", because the phone is now centred 
 reads "brand x = heading x". The fact strip check now reads the INK of the words, not their boxes (his review point
 10). On the map the phone presses every country from its chip (6 of 6) and every pin; shapes too small for a
 fingertip are counted, not failed.
-Counts on 5 Nov 2026 at 8eb1c17, local preview: check-dist 22 of 22, check-site 242 of 242 (phone 101 touchpoints
+A third check changed its SUBJECT on 5 Nov 2026 when the pictures went in, and it was not loosened. "Every stand in
+plate on screen shows the file name to send" needed at least one plate; no plate is left, so it now reads "any stand
+in plate left on screen shows the file name to send". Two new checks prove what took the plates' place: check-site
+"every picture on the page loads" (25 of 25, phone and desk) and check-dist "every scene picture is on the page"
+(fails on any plate), with a second new check-dist line for the six focus points.
+Counts on 5 Nov 2026 at 5095826 (pictures in), local preview: check-dist 24 of 24, check-site 244 of 244 (phone 101
+touchpoints found, 97 pressed, 4 external checked; desk 102 found, 97 pressed, 5 external checked), stack PASS astro,
+hand-svg PASS, device-views PASS (phone heading middle 201.0 of 201, desk brand and heading at x=49), speed PASS 12
+of 12 (reload main content 412 ms, worst tap 96 ms), house_style OK on the rendered text. The first check-site run
+on that build read 242 of 244: two links (phone Help to #ready, desk header to #help) were read while the glide had
+paused for one 60 ms beat. Pressed directly 8 times each they landed 16 of 16 (press to first movement 40 to 63 ms,
+longest hold 17 ms), and the unchanged check then passed 244 of 244 locally. The check was NOT changed. If it
+happens again, rerun alone before touching anything.
+Live on 5 Nov 2026 at 5095826: speed PASS 12 of 12 (slow 4G phone, first paint and main content 643 ms, page 255 KB,
+JS 14 KB, layout shift 0.000, biggest image 99 KB, reload 319 ms and 0 KB, worst tap 88 ms), device-views PASS (phone
+heading middle 201.0 of 201, desk brand and heading at x=49), check-site PASS 244 of 244 (same touchpoints as local, every picture loads 25 of 25), 25 pictures, 0 stand in plates
+and 6 focus points read off the published page, robots meta noindex.
+Earlier counts, on 5 Nov 2026 at 8eb1c17 (before the pictures), local preview: check-dist 22 of 22, check-site 242 of 242 (phone 101 touchpoints
 found, 97 pressed, 4 external checked; desk 102 found, 97 pressed, 5 external checked; Back once and twice; clipAudit
 at 375, 390, 768 and 1440), stack PASS astro, hand-svg PASS, device-views PASS, speed PASS 12 of 12 (main content
 427 ms, worst tap 112 ms, page to page had nothing to press), house_style OK on the rendered text, optical within
@@ -128,7 +152,10 @@ and robots.txt. The agency holds the hosting, the domain and any form service in
 - The band of six countries moves by itself, pauses under a pointer and stands still under reduced motion | why: his review point 2 | held by: src/styles/ticker.css#@keyframes
 - Large pictures open with a curtain wipe (the only clip-path animation on the page) | why: everything else animates transform and opacity only, for speed | held by: src/styles/global.css#data-reveal=wipe
 - Real pictures drift a little inside their frames as the page moves, only where the browser ties motion to scroll | why: depth without a library or a scroll listener | held by: src/styles/global.css#shot-drift
-- A picture not yet supplied shows a navy plate with its icon and the file name to send; a real photo owed shows a PHOTO NEEDED frame | why: the 25 pictures and the real photos are still owed (bb_pending 1331 and 1332) and a broken picture must never show | held by: src/styles/global.css#shot-wait
+- A picture that is missing shows a navy plate with its icon and the file name to send; a real photo owed shows a PHOTO NEEDED frame | why: the real photos are still owed (bb_pending 1332) and a broken picture must never show | held by: src/styles/global.css#shot-wait
+- Every scene picture is on the page and none is a stand in | why: Thulaib made the pictures on 5 Nov 2026 and a master that goes missing must fail the build, not show a plate to a visitor | held by: scripts/check-dist.mjs#every scene picture is on the page
+- Nine pictures are cut to their clean middle before the master is made | why: ChatGPT padded a square scene out to 3:2 with a blurred copy of itself down both sides and the band showed in the slot | held by: scripts/prep-images.mjs#const CUT
+- Six pictures carry a focus point so the crop keeps the subject (tower tops on the map cards and the ticks and the camera in the upright guide cards) | why: a centred crop cut the Bahrain and Dubai tower tips and hid Kuwait's towers on the phone | held by: scripts/check-dist.mjs#six pictures keep their focus point
 - Below the desk layout a piece that would slide in from the side rises instead | why: the gutter is narrower than the slide, so the waiting piece stood past the screen edge, widened the page to 414 on a phone and 774 on a tablet and broke four taps | held by: src/styles/global.css#would stand past the screen edge
 - On a phone the hero, every section heading and its lead are centred; on a desk they start on the brand's left edge | why: BB's standing rule (Thulaib 29 Sep 2026) and his review point 9 | held by: src/styles/global.css#main section h2{text-align:center}
 - On a phone the boxed licence chip above the hero heading is hidden | why: a boxed chip above a centred heading is an AI tell and the navy strip right above already says it | held by: src/styles/global.css#main .hero .hero-chip{display:none}
@@ -160,8 +187,10 @@ service of its own. The prior art for this build was `~/bb-websites/ceylon-carri
 
 ## 8. Not on disk
 The repaired seal lives outside the repo in ~/Downloads/RATHNAWEERA-BRAND (the masters made from it are in
-src/assets/img with its hash in SOURCE.json). The 25 pictures and the real photos are not made yet: their drop
-folders are in ~/Downloads/RATHNAWEERA-WEBSITE. The mould for this redesign and the hand-over between chats 5 and 6
+src/assets/img with its hash in SOURCE.json). Thulaib's 25 picture originals are in ~/Downloads/RFEA IMAGES WEB and
+the 24 in use are in ~/Downloads/RATHNAWEERA-WEBSITE/new-images under the site names; the masters made from them are
+committed, so the deploy needs neither folder. The real photos are not taken yet (drop folder
+~/Downloads/RATHNAWEERA-WEBSITE/real-photos) and a clean plane cut-out is still owed. The mould for this redesign and the hand-over between chats 5 and 6
 live in the side session notes folder of chat 5, not in the repo. Before and after pictures are in
 ~/Downloads/RATHNAWEERA-WEBSITE/staging-preview and ~/Downloads/RATHNAWEERA-WEBSITE/redesign-preview. No real iPhone
 has seen the page yet. When the agency's real facts replace the placeholders, measure the fact strip again with
