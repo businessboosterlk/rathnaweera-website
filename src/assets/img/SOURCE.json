@@ -1,0 +1,6 @@
+{
+ "made_by": "scripts/prep-images.mjs",
+ "seal_source": "~/Downloads/RATHNAWEERA-BRAND/Rathnaweera-Logo.png",
+ "seal_sha256": "5f05315b7d4c67bcbcc4f37ee7e5a906f5fff3378360d7cbbfcc18b8d4880e4e",
+ "handoff": "~/Downloads/RATHNAWEERA-WEBSITE/handoff-clear-assurance/rathnaweera-handoff"
+}

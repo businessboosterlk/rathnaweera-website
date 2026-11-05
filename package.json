@@ -1,0 +1,29 @@
+{
+  "name": "rathnaweera-website",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Rathnaweera Foreign Employment Agency home page, staging preview. Astro static site on the BB stack standard.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev --port 4661",
+    "icons": "node scripts/build-icons.mjs",
+    "images": "node scripts/prep-images.mjs",
+    "build": "node scripts/build-icons.mjs --check && astro build && node scripts/check-dist.mjs",
+    "preview": "astro preview --port 4661",
+    "check": "node scripts/check-site.mjs",
+    "verify": "npm run build && npm run check"
+  },
+  "dependencies": {
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource/libre-caslon-text": "^5.3.0",
+    "astro": "^7.3.8",
+    "sharp": "^0.35.5"
+  },
+  "devDependencies": {
+    "lucide-static": "^1.68.0",
+    "playwright": "^1.64.1"
+  }
+}

@@ -1,0 +1,365 @@
+---
+// Rathnaweera home page, staging preview. Section order and words come from the approved storyboard
+// (Clear Assurance, variant 0). Every fact that waits for Janaka is a gold dashed placeholder from config.js.
+// Every job is a SAMPLE. The form is a front-end preview: it sends nothing anywhere (bb_pending 1242).
+import { Picture } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import Ph from '../components/Ph.astro';
+import { SITE, STAGING } from '../config.js';
+
+import globe from '../assets/img/hero-globe.webp';
+import plane from '../assets/img/hero-plane.webp';
+import seal from '../assets/img/seal.webp';
+import jDriver from '../assets/img/job-driver.webp';
+import jKitchen from '../assets/img/job-kitchen.webp';
+import jSecurity from '../assets/img/job-security.webp';
+import jHouse from '../assets/img/job-housekeeper.webp';
+import jWaiter from '../assets/img/job-waiter.webp';
+import jCleaner from '../assets/img/job-cleaner.webp';
+import cKuwait from '../assets/img/country-kuwait.webp';
+import cQatar from '../assets/img/country-qatar.webp';
+import cUae from '../assets/img/country-uae.webp';
+import cSaudi from '../assets/img/country-saudi-arabia.webp';
+import cOman from '../assets/img/country-oman.webp';
+import cBahrain from '../assets/img/country-bahrain.webp';
+
+const countries = [
+  { key: 'kuwait', name: 'Kuwait', img: cKuwait },
+  { key: 'qatar', name: 'Qatar', img: cQatar },
+  { key: 'uae', name: 'United Arab Emirates', img: cUae },
+  { key: 'saudi', name: 'Saudi Arabia', img: cSaudi },
+  { key: 'oman', name: 'Oman', img: cOman },
+  { key: 'bahrain', name: 'Bahrain', img: cBahrain },
+];
+const cname = k => countries.find(c => c.key === k).name;
+// SAMPLE jobs, exactly as the storyboard shows them. Not live vacancies (bb_pending 1241, 1256).
+const jobs = [
+  { key: 'driver', title: 'House driver', country: 'kuwait', places: 4, img: jDriver },
+  { key: 'kitchen', title: 'Kitchen helper', country: 'qatar', places: 10, img: jKitchen },
+  { key: 'security', title: 'Security guard', country: 'uae', places: 6, img: jSecurity },
+  { key: 'housekeeper', title: 'Housekeeper', country: 'oman', places: 8, img: jHouse },
+  { key: 'waiter', title: 'Waiter', country: 'bahrain', places: 3, img: jWaiter },
+  { key: 'cleaner', title: 'Cleaner', country: 'saudi', places: 12, img: jCleaner },
+];
+const steps = [
+  ['Registered', 'You register at one of our offices.'],
+  ['Medical', 'You complete the medical check.'],
+  ['SLBFE Training', 'You attend the SLBFE training.'],
+  ['Job Offer', 'An employer offers you the job.'],
+  ['Agreement Signed', 'You sign the agreement.'],
+  ['Visa', 'Your visa is processed.'],
+  ['Sent Abroad', 'You travel to your job.'],
+];
+const docs = ['Passport', 'National identity card', 'Police clearance report', 'Medical report', 'School or training certificates'];
+const questions = ['Do I pay anything to apply?', 'How long does it take?', 'Is the agency licensed?', 'What documents do I need?', 'Will someone call me?', 'Can I visit the office?', 'Which countries do you send to?', 'What if I have no passport yet?'];
+const phones = [['landline', 'Landline'], ['mobile1', 'Mobile 1'], ['mobile2', 'Mobile 2']];
+const cardSizes = '(min-width: 1100px) 400px, (min-width: 760px) 46vw, 92vw';
+---
+<Layout>
+  {STAGING && <p class="staging">Staging preview. Facts in gold dashed boxes wait for the agency. SAMPLE jobs are not live vacancies.</p>}
+
+  <div class="topline frame">
+    <span>SLBFE licence <Ph t="SLBFE licence no. from Janaka's certificate" /> <a class="textlink" href={SITE.registerUrl} target="_blank" rel="noopener">Check it<Icon name="external" /></a></span>
+    <span class="nums">{phones.map(([, l]) => <Ph t={l} />)}</span>
+  </div>
+
+  <header class="site-head frame" id="top">
+    <a class="brand" href="#top" aria-label="Rathnaweera Foreign Employment Agency, back to top">
+      <Picture src={seal} formats={['avif']} fallbackFormat="webp" widths={[96, 192]} sizes="62px" alt="Rathnaweera Foreign Employment Agency seal" loading="eager" class="seal" />
+      <span class="brand-name">Rathnaweera<span>Foreign Employment Agency</span></span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="#jobs">Jobs</a><a href="#help">Help</a><a href="#about">About</a><a href="#contact">Contact</a>
+      <a class="btn" href="#apply">Apply</a>
+    </nav>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" data-menu-open><Icon name="menu" />Menu</button>
+  </header>
+
+  <div class="menu" id="menu" hidden>
+    <div class="menu-top frame">
+      <span class="brand-name">Rathnaweera<span>Foreign Employment Agency</span></span>
+      <button class="menu-btn" type="button" data-menu-close aria-label="Close the menu"><Icon name="close" />Close</button>
+    </div>
+    <nav class="menu-links frame" aria-label="Menu">
+      <a href="#jobs">Jobs</a><a href="#help">Help</a><a href="#about">About</a><a href="#contact">Contact</a>
+      <a class="btn" href="#apply">Apply</a>
+      <p class="menu-nums">Our only numbers: {phones.map(([, l]) => <Ph t={l} />)}</p>
+    </nav>
+  </div>
+
+  <div class="language frame" aria-label="Language switch, not active yet">
+    <div class="langs" aria-hidden="true"><span>English</span><span lang="si">සිංහල</span><span lang="ta">தமிழ்</span></div>
+    <p>Language switch, waits for the decision on languages</p>
+  </div>
+
+  <main>
+    <section class="hero frame" aria-labelledby="hero-h">
+      <div class="hero-copy">
+        <div class="licence">SLBFE licence <Ph t="SLBFE licence no. from Janaka's certificate" /> <a class="textlink" href={SITE.registerUrl} target="_blank" rel="noopener">Check it<Icon name="external" /></a></div>
+        <h1 id="hero-h">Work abroad with a licensed Sri Lankan agency.</h1>
+        <p class="lead">Real jobs, checked on the SLBFE register. Apply in two minutes and a staff member calls you back.</p>
+        <div class="actions">
+          <a class="btn secondary" href="#jobs">See jobs open now</a>
+          <a class="btn" href="#apply">Apply</a>
+        </div>
+        <p class="callback">Call back timing: <Ph t="waits for Janaka" /></p>
+      </div>
+      <div class="art" data-hero-art aria-hidden="true">
+        <div class="orbit back"></div>
+        <Picture src={globe} formats={['avif']} fallbackFormat="webp" widths={[320, 520, 760, 1100]} sizes="(min-width: 1100px) 540px, (min-width: 760px) 44vw, 300px" alt="" loading="eager" fetchpriority="high" class="globe" />
+        <div class="orbit front"></div>
+        <Picture src={plane} formats={['avif']} fallbackFormat="webp" widths={[160, 320]} sizes="(min-width: 1100px) 140px, 80px" alt="" loading="eager" class="plane" />
+      </div>
+    </section>
+
+    <div class="photo strip"><span>PHOTO NEEDED: the Ambalantota office with its signboard</span></div>
+
+    <section class="trust-wrap frame" aria-label="Facts about the agency"><div class="trust">
+      <article><div class="fact"><Ph t="SLBFE licence no." /></div><p>SLBFE licence <a class="textlink" href={SITE.registerUrl} target="_blank" rel="noopener">Check it<Icon name="external" /></a></p></article>
+      <article><div class="fact">Two offices</div><p>Ambalantota and Colombo</p></article>
+      <article><div class="fact"><Ph t="Year started" /></div><p>Year we started</p></article>
+      <article><div class="fact"><Ph t="People placed, with proof" /></div><p>People placed abroad</p></article>
+    </div></section>
+
+    <section class="block frame" id="jobs" aria-labelledby="jobs-h">
+      <div class="section-head">
+        <div>
+          <h2 id="jobs-h">Jobs open now</h2>
+          <p class="desk">Tap a country below to see only its jobs. Who updates this list and how often: <Ph t="waits for Janaka" /></p>
+          <p class="phone">Up to six cards here.</p>
+        </div>
+        <button class="textlink" type="button" data-show-all>See all jobs<Icon name="arrow" /></button>
+      </div>
+      <p class="filter-line" data-filter-line hidden><span data-filter-text></span> <button class="textlink" type="button" data-show-all>Show all</button></p>
+      <div class="jobs">
+        {jobs.map(j => (
+          <article class="card job" data-country={j.country}>
+            <Picture src={j.img} formats={['avif']} fallbackFormat="webp" widths={[400, 640, 900]} sizes={cardSizes} alt="" loading="lazy" class="card-img" />
+            <div class="card-body">
+              <span class="sample">SAMPLE</span>
+              <h3>{j.title}</h3>
+              <p class="country">{cname(j.country)}</p>
+              <p>{j.places} places · 2 year contract<br />Closes <Ph t="date" /></p>
+              <a class="btn outline" href="#apply" data-apply-job={j.key} data-apply-country={j.country}>Apply for this job</a>
+            </div>
+          </article>
+        ))}
+      </div>
+      <div class="empty-state">
+        <p class="example-tag">Example: what this space says when no job is open</p>
+        <h3>When no job is open</h3>
+        <p>No jobs are open right now. Check your documents with the list below and call us. We will tell you when your country opens.</p>
+        <a class="textlink" href="#ready">Am I ready to apply?<Icon name="arrow" /></a>
+      </div>
+    </section>
+
+    <section class="block frame" id="countries" aria-labelledby="countries-h">
+      <h2 id="countries-h">Countries we send to</h2>
+      <p class="desk">Each tile opens the jobs list already filtered to that country. The list of countries is <Ph t="supplied by Janaka" />.</p>
+      <p class="phone">Tap a country to see its jobs.</p>
+      <div class="countries">
+        {countries.map(c => (
+          <button class="card tile" type="button" data-country-tile={c.key} aria-label={`Show jobs in ${c.name}`}>
+            <Picture src={c.img} formats={['avif']} fallbackFormat="webp" widths={[400, 640, 900]} sizes={cardSizes} alt="" loading="lazy" class="card-img" />
+            <span class="card-body">
+              <span class="sample">SAMPLE</span>
+              <span class="tile-name">{c.name}</span>
+              <span class="tile-count"><Ph t="n" /> jobs open</span>
+            </span>
+          </button>
+        ))}
+      </div>
+    </section>
+
+    <section class="block frame" id="steps" aria-labelledby="steps-h">
+      <h2 id="steps-h">How it works</h2>
+      <p class="desk">Seven steps from your first call to your flight.</p>
+      <p class="phone">Seven steps from first call to flight.</p>
+      <ol class="steps">
+        {steps.map(([t, d], i) => (
+          <li><span class="step-number" aria-hidden="true">{i + 1}</span><div><h3>{t}</h3><p>{d}</p></div></li>
+        ))}
+      </ol>
+      <p>Time from first call to flight: <Ph t="Janaka confirms the steps and the time" /></p>
+    </section>
+
+    <section class="block frame soft" id="ready" aria-labelledby="ready-h">
+      <h2 id="ready-h">Am I ready to apply?</h2>
+      <p class="desk">Tick what you have. It shows what is missing and carries your answers into the form. The list changes with the job type: <Ph t="document list per job type from Janaka" />.</p>
+      <p class="phone">Tick what you have. Your answers come with you into the form.</p>
+      <div class="split">
+        <fieldset class="checklist">
+          <legend class="sr">Documents you have</legend>
+          {docs.map(d => <label><input type="checkbox" name="doc" value={d} />{d}</label>)}
+        </fieldset>
+        <div class="card ready" aria-live="polite">
+          <h3 data-ready-title>You still need five things</h3>
+          <p data-ready-list>{docs.join(', ')}</p>
+          <p>What to do next for each: <Ph t="steps from Janaka" /></p>
+          <a class="btn" href="#apply" data-apply-ready>Apply with these answers</a>
+        </div>
+      </div>
+      <p class="phone">Document list per job type: <Ph t="from Janaka" /></p>
+    </section>
+
+    <section class="block frame split apply" id="apply" aria-labelledby="apply-h">
+      <div>
+        <h2 id="apply-h">Apply now</h2>
+        <p>It takes about two minutes. We ask:</p>
+        <ul class="asks desk">
+          <li>Your name</li><li>Your mobile number</li><li>The country and the job you want</li><li>Your NIC and passport number, if you have them</li>
+        </ul>
+        <ul class="asks phone">
+          <li>Your name and mobile number</li><li>The country and job you want</li><li>NIC and passport number, if you have them</li>
+        </ul>
+        <p>A staff member calls you the next working morning. <Ph t="call back wording and hours from Janaka" /></p>
+        <p class="desk">Nothing is uploaded. Bring your passport and NIC to the office.</p>
+      </div>
+      <form class="card form" method="post" novalidate data-apply-form aria-labelledby="form-h">
+        <p class="preview-note"><Icon name="alert" />Staging preview. This form sends nothing yet.</p>
+        <div class="step" data-step="1">
+          <h3 id="form-h">Step 1 of 2: about you</h3>
+          <p class="picked" data-picked hidden></p>
+          <label>Full name<input name="full_name" autocomplete="name" required placeholder="Your name" /></label>
+          <label>Mobile number<input name="phone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="07x xxx xxxx" /></label>
+          <p class="err" data-err="1" hidden></p>
+          <button class="btn" type="button" data-next disabled>Next: the job you want<Icon name="arrow" /></button>
+        </div>
+        <div class="step" data-step="2" hidden>
+          <h3>Step 2 of 2: the job you want</h3>
+          <label>Country<select name="country_wanted"><option value="">Any country</option>{countries.map(c => <option value={c.key}>{c.name}</option>)}</select></label>
+          <label>Job<select name="job_wanted"><option value="">Any job</option>{jobs.map(j => <option value={j.key}>{j.title}</option>)}</select></label>
+          <p class="hint">SAMPLE lists until the real jobs list is ready.</p>
+          <label>NIC number, if you have it<input name="nic" autocomplete="off" placeholder="200012345678" /></label>
+          <label>Passport number, if you have it<input name="passport_no" autocomplete="off" placeholder="N1234567" /></label>
+          <p class="docs-line" data-docs-line hidden></p>
+          <label class="consent"><input type="checkbox" name="consent" value="yes" required />You may call me about this application. <Ph t="Privacy notice, waits for approval" /></label>
+          <label class="hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off" /></label>
+          <p class="err" data-err="2" hidden></p>
+          <div class="form-actions">
+            <button class="btn" type="submit" data-submit disabled>Send my application</button>
+            <button class="textlink" type="button" data-back>Back to step 1</button>
+          </div>
+        </div>
+        <div class="step result" data-step="done" hidden tabindex="-1">
+          <h3>Nothing was sent</h3>
+          <p>This is the staging preview, so nothing was sent or saved. When the form goes live, this is what the agency would receive:</p>
+          <dl data-summary></dl>
+          <p>Where applications go: <Ph t="waits for the decision on form delivery" /></p>
+          <button class="textlink" type="button" data-restart>Start again</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="block frame soft split safety" id="safety" aria-labelledby="safety-h">
+      <div>
+        <h2 id="safety-h">Stay safe from fake agents</h2>
+        <p class="desk">Families fear scams more than anything. Here is how to know it is really us.</p>
+        <p class="phone">How to know it is really us.</p>
+        <p class="desk">Check it opens the SLBFE register already filtered to our exact name. Payment rules: <Ph t="in Janaka's words" /></p>
+      </div>
+      <ol class="rules">
+        <li>Only these three numbers: {phones.map(([, l]) => <Ph t={l} />)}</li>
+        <li>Receipts come only from our system.</li>
+        <li>Never pay into a personal account.</li>
+        <li>Visit our office in Ambalantota or Colombo.</li>
+        <li>Check our licence on the SLBFE register. <a class="textlink" href={SITE.registerUrl} target="_blank" rel="noopener">Check it<Icon name="external" /></a></li>
+      </ol>
+      <p class="phone">Check it opens the register filtered to our exact name. <Ph t="payment rules in Janaka's words" /></p>
+    </section>
+
+    <section class="block frame" id="help" aria-labelledby="help-h">
+      <h2 id="help-h">Help and guides</h2>
+      <p>Everything to read before you apply.</p>
+      <div class="guides">
+        <article class="card">
+          <h3>Documents you need</h3>
+          <p class="phone">A printable checklist</p>
+          <div class="desk"><p>A printable checklist for your job type.</p><p>Passport and NIC<br />Police clearance report<br />Medical report</p></div>
+          <a class="textlink" href="#ready">Open the checklist<Icon name="arrow" /></a>
+        </article>
+        <article class="card">
+          <h3>The legal steps</h3>
+          <p class="desk">SLBFE registration, training, medical and visa.</p>
+          <p class="phone">Registration, training, medical and visa</p>
+          <a class="textlink" href="#steps">Read the steps<Icon name="arrow" /></a>
+        </article>
+        <article class="card">
+          <h3>Video guides</h3>
+          <p class="phone">Added as we film them</p>
+          <p class="desk"><Ph t="videos arrive as they are filmed" /></p>
+          <p><Ph t="Watch, when the first video is filmed" /></p>
+        </article>
+      </div>
+    </section>
+
+    <section class="block frame split about" id="about" aria-labelledby="about-h">
+      <div class="photo"><span>PHOTO NEEDED: Mr. Janaka with the team at the Ambalantota office</span></div>
+      <div>
+        <h2 id="about-h">Who you will meet</h2>
+        <p>Mr. Janaka leads Rathnaweera Foreign Employment Agency. <Ph t="a few lines on how the agency started, in his words" /></p>
+        <div class="offices">
+          {SITE.offices.map(o => <div><h3>{o.name}</h3><p>{o.town}<br /><Ph t="full address" /></p></div>)}
+        </div>
+        <p class="desk"><Ph t="About us and our licence, page follows after approval" /></p>
+      </div>
+    </section>
+
+    <section class="block frame split" id="faq" aria-labelledby="faq-h">
+      <div>
+        <h2 id="faq-h">Questions people ask</h2>
+        <p class="desk"><span class="sample">SAMPLE</span> questions. The six to eight real ones come from the questions Janaka's staff hear most.</p>
+        <p class="phone"><span class="sample">SAMPLE</span> questions. Janaka's staff give the real six to eight.</p>
+      </div>
+      <div class="faq">
+        {questions.map((q, i) => (
+          <details open={i === 0} class={i > 5 ? 'desk' : ''}>
+            <summary>{q}<Icon name="down" /></summary>
+            <p>{i === 0 ? <Ph t="answer waits for Janaka: SLBFE sets what an agency may charge" /> : <Ph t="answer waits for Janaka" />}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <section class="block frame" id="contact" aria-labelledby="contact-h">
+      <h2 id="contact-h">Contact and offices</h2>
+      <p class="desk">Call or visit us. These are the only three numbers.</p>
+      <p class="phone">Call or visit us.</p>
+      <div class="contact-grid">
+        {SITE.offices.map(o => (
+          <article class="card">
+            <div class="map"><Icon name="pin" />MAP: {o.name}</div>
+            <div class="card-body"><h3>{o.name}</h3><p>{o.town}<br /><Ph t="full address" /><br /><Ph t="opening hours" /></p></div>
+          </article>
+        ))}
+        <div class="contact-numbers">
+          {['Landline', 'Mobile 1', 'Mobile 2', 'Email', 'Opening hours'].map(x => <p><Ph t={x} /></p>)}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-foot frame">
+    <div>
+      <span class="brand">
+        <Picture src={seal} formats={['avif']} fallbackFormat="webp" widths={[96, 192]} sizes="62px" alt="" loading="lazy" class="seal" />
+        <span class="brand-name">Rathnaweera<span>Foreign Employment Agency</span></span>
+      </span>
+      <p>SLBFE licence <Ph t="SLBFE licence no. from Janaka's certificate" /><br /><a class="textlink" href={SITE.registerUrl} target="_blank" rel="noopener">Check it<Icon name="external" /></a></p>
+    </div>
+    <div><h3>Offices</h3><p>Head Office, Ambalantota</p><p>Colombo branch</p></div>
+    <div><h3>Read</h3><p><a href="#jobs">Jobs</a></p><p><a href="#help">Help</a></p><p><a href="#about">About</a></p><p><a href="#contact">Contact</a></p></div>
+    <div><h3>Legal</h3><p><Ph t="Privacy notice" /></p><p><Ph t="Complaints" /></p></div>
+    <div class="footer-end"><Ph t="Legal name, if shown" /><p>© 2026 Rathnaweera Foreign Employment Agency</p></div>
+  </footer>
+
+  <div class="phonebar" aria-label="Quick actions">
+    <a class="btn outline" href="#contact"><Icon name="phone" />Call</a>
+    <a class="btn" href="#apply">Apply</a>
+  </div>
+
+  <script>
+    import '../scripts/site.js';
+  </script>
+</Layout>

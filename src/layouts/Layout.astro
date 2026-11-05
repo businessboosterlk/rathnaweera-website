@@ -1,0 +1,44 @@
+---
+// One layout. Head, fonts, the share card, the JSON-LD and the phone shell (insets, status strip) live here.
+import '@fontsource/libre-caslon-text/latin-400.css';
+import '@fontsource-variable/inter/wght.css';
+import caslon from '@fontsource/libre-caslon-text/files/libre-caslon-text-latin-400-normal.woff2?url';
+import '../styles/global.css';
+import { SITE, ROBOTS, url } from '../config.js';
+const { title = SITE.name, description = SITE.description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'EmploymentAgency', '@id': canonical + '#org', name: SITE.name, url: canonical, logo: new URL(url('apple-touch-icon.png'), Astro.site).href,
+      areaServed: 'LK', address: SITE.offices.map(o => ({ '@type': 'PostalAddress', addressLocality: o.town, addressCountry: 'LK' })) },
+    { '@type': 'WebSite', '@id': canonical + '#site', url: canonical, name: SITE.name, inLanguage: 'en-LK' },
+  ],
+};
+---
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta name="robots" content={ROBOTS} />
+  <link rel="canonical" href={canonical} />
+  <meta name="theme-color" content="#ffffff" />
+  <link rel="icon" type="image/png" href={url('favicon.png')} />
+  <link rel="apple-touch-icon" href={url('apple-touch-icon.png')} />
+  <link rel="preload" href={caslon} as="font" type="font/woff2" crossorigin />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={new URL(url('og.jpg'), Astro.site).href} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+</head>
+<body>
+  <div class="statusfill" aria-hidden="true"></div>
+  <slot />
+</body>
+</html>
