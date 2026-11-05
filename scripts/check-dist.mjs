@@ -32,6 +32,9 @@ ok('overflow-x clip, never hidden on the page', !/body\{[^}]*overflow-x:hidden/.
 const sample = (html.match(/>SAMPLE</g) || []).length, ph = (html.match(/class="ph"/g) || []).length;
 ok('SAMPLE labels kept (' + sample + ')', sample >= 14);
 ok('gold dashed placeholders kept (' + ph + ')', ph >= 40);
+const shots = (html.match(/<img[^>]*class="shot[ "]/g) || []).length, waits = (html.match(/class="shot shot-wait/g) || []).length, foci = (html.match(/style="object-position:/g) || []).length;
+ok('every scene picture is on the page (' + shots + ' pictures, ' + waits + ' stand in plates)', shots >= 24 && waits === 0);
+ok('six pictures keep their focus point (' + foci + ')', foci === 6);
 ok('Stage 2 is not on the page', !/Departures and stories|Stage 2/.test(html));
 ok('404, sitemap and llms.txt built', ['404.html', 'sitemap.xml', 'llms.txt'].every(f => existsSync(join(D, f))));
 

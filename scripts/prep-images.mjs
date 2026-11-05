@@ -48,15 +48,25 @@ const SCENES = ['driver', 'kitchen', 'security', 'housekeeper', 'waiter', 'clean
   .concat(['kuwait', 'qatar', 'uae', 'saudi-arabia', 'oman', 'bahrain'].map(x => 'country-' + x))
   .concat(['step-1-registered', 'step-2-medical', 'step-3-training', 'step-4-job-offer', 'step-5-agreement', 'step-6-visa', 'step-7-sent-abroad'])
   .concat(['safety-receipt', 'guide-documents', 'guide-legal-steps', 'guide-videos']);
+// CUTS (5 Nov 2026). Nine of the ChatGPT pictures came as a square scene padded out to 3:2 with a blurred copy of
+// itself down both sides (top and bottom on the upright one). The band is not part of the picture, so each is cut to
+// its clean middle, measured by sharpness per 16 px strip: [left, top, width, height] in the source's own pixels.
+// A picture with no line is cut to the middle as before. When a picture is remade without bands, delete its line.
+const CUT = {
+  'job-cleaner': [288, 60, 928, 696], 'safety-receipt': [288, 188, 928, 696], 'guide-documents': [288, 120, 928, 696],
+  'guide-legal-steps': [288, 160, 952, 714], 'guide-videos': [288, 100, 928, 696], 'country-bahrain': [240, 0, 1040, 780],
+  'step-2-medical': [240, 110, 1040, 780], 'step-3-training': [176, 120, 1168, 876], 'apply-callback': [111, 368, 618, 928],
+};
+const cut = (src, n) => { const c = CUT[n], s = sharp(src); return c && src.startsWith(NEW) ? s.extract({ left: c[0], top: c[1], width: c[2], height: c[3] }) : s; };
 for (const n of SCENES) {
   const src = pick(n, [NEW, join(HANDOFF, 'assets')]); if (!src) continue;
   const f = join(OUT, n + '.webp');
-  await sharp(src).resize({ width: 1000, height: 750, fit: 'cover' }).webp({ quality: 80, effort: 6 }).toFile(f);
-  done(f, 'opaque 4:3, from ' + (src.startsWith(NEW) ? 'new-images' : 'handoff')); used.push(n);
+  await cut(src, n).resize({ width: 1000, height: 750, fit: 'cover' }).webp({ quality: 80, effort: 6 }).toFile(f);
+  done(f, 'opaque 4:3, from ' + (src.startsWith(NEW) ? 'new-images' : 'handoff') + (CUT[n] && src.startsWith(NEW) ? ', cut to its clean middle' : '')); used.push(n);
 }
 // Upright 2:3 panel beside the form.
 { const src = pick('apply-callback', [NEW]); if (src) { const f = join(OUT, 'apply-callback.webp');
-  await sharp(src).resize({ width: 900, height: 1350, fit: 'cover' }).webp({ quality: 80, effort: 6 }).toFile(f); done(f, 'upright 2:3, from new-images'); used.push('apply-callback'); } }
+  await cut(src, 'apply-callback').resize({ width: 600, height: 900, fit: 'cover' }).webp({ quality: 82, effort: 6 }).toFile(f); done(f, 'upright 2:3, from new-images'); used.push('apply-callback'); } }
 // Real photos of the agency. Never an AI picture: these show Rathnaweera itself.
 for (const [n, w, h] of [['janaka', 1200, 1500], ['team', 1800, 1200], ['office-ambalantota', 2400, 1350], ['office-colombo', 1600, 1067],
   ['staff-1', 800, 800], ['staff-2', 800, 800], ['staff-3', 800, 800], ['staff-4', 800, 800]]) {

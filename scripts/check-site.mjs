@@ -418,7 +418,11 @@ for (const [size, viewport, touch] of SIZES) {
   for (let i = 0; i < 7; i++) { await press(`[data-st-tab="${i}"]`); await page.waitForTimeout(800); for (const pl of await readPlates()) if (!plateMap.has(pl[0]) || !pl[1]) plateMap.set(pl[0], pl); }
   const plates = [...plateMap.values()];
   const plateBad = plates.filter(([n, v]) => !/^[a-z0-9-]+$/.test(n) || !v);
-  ok(`${size}: every stand in plate on screen shows the file name to send (${plates.length - plateBad.length} of ${plates.length})`, plates.length >= 1 && !plateBad.length, plateBad.map(p => `${p[0]} ${p[2]} name ${p[1] ? 'shown' : 'hidden'}`).join(' | '));
+  /* 5 Nov 2026: the scene pictures are all in, so no plate is left to count. The check now reads: any plate that is on screen shows its file name. The next check is new and proves the pictures that took the plates' place. */
+  ok(`${size}: any stand in plate left on screen shows the file name to send (${plates.length - plateBad.length} of ${plates.length})`, !plateBad.length, plateBad.map(p => `${p[0]} ${p[2]} name ${p[1] ? 'shown' : 'hidden'}`).join(' | '));
+  const pics = await page.evaluate(async () => { const im = [...document.querySelectorAll('img.shot')]; im.forEach(i => { i.loading = 'eager'; }); await Promise.all(im.map(i => i.decode().catch(() => {}))); return im.map(i => [(i.currentSrc || i.src).split('/').pop(), i.naturalWidth]); });
+  const picBad = pics.filter(([, w]) => !(w > 0));
+  ok(`${size}: every picture on the page loads (${pics.length - picBad.length} of ${pics.length})`, pics.length >= 24 && !picBad.length, picBad.map(p => p[0]).join(' | '));
   const needs = await page.evaluate(() => [...document.querySelectorAll('.shot-need')].map(s => s.textContent.includes('PHOTO NEEDED')));
   ok(`${size}: every photo box says PHOTO NEEDED (${needs.filter(Boolean).length} of ${needs.length})`, needs.length >= 1 && needs.every(Boolean));
   /* the footer name fits its box and ends in place */
