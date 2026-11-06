@@ -4,7 +4,7 @@
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { createHash } from 'node:crypto';
-import { ORBIT, pose } from '../src/scripts/hero.js';
+import { ORBIT, pose, angle } from '../src/scripts/hero.js';
 
 const D = 'dist', fails = [], passes = [];
 const ok = (name, cond, why = '') => (cond ? passes : fails).push(name + (cond || !why ? '' : '  ' + why));
@@ -43,6 +43,10 @@ ok('six pictures keep their focus point (' + foci + ')', foci === 6);
   for (let d = 0; d < 360; d += 0.25) { const p = pose(d), w = Math.abs(p.sx / p.sy); if (p.op > 0.02) thin = Math.min(thin, w); const g = p.op < 0.02; if (g && !was) gone++; was = g; }
   const rest = pose(ORBIT.a0);
   ok(`the plane is never drawn thinner than half its width and fades through both turns (${thin.toFixed(2)}, ${gone} fades)`, thin >= 0.5 && gone === 2 && rest.op === 1 && /--po:1\.000/.test(html), JSON.stringify({ thin, gone, rest: rest.op }));
+  /* and wherever the page stops, the plane is whole: full strength and at least 0.58 of its width (angle() never rests in a turn) */
+  let weak = 1, slim = 9;
+  for (let i = 0; i <= 4000; i++) { const p = pose(angle(i / 4000)); weak = Math.min(weak, p.op); slim = Math.min(slim, Math.abs(p.sx / p.sy)); }
+  ok(`wherever the page stops the plane is whole (weakest ${weak.toFixed(2)}, narrowest ${slim.toFixed(2)})`, weak === 1 && slim >= 0.58 && angle(0) === ORBIT.a0 && angle(1) === ORBIT.a0 - 360, JSON.stringify({ weak, slim }));
 }
 ok('Stage 2 is not on the page', !/Departures and stories|Stage 2/.test(html));
 ok('404, sitemap and llms.txt built', ['404.html', 'sitemap.xml', 'llms.txt'].every(f => existsSync(join(D, f))));

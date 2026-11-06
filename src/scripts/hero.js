@@ -2,7 +2,8 @@
 // scrolling through the hero flies it one full orbit, in front of the globe on the near half and behind it on the
 // far half (smaller), banking with the path and turning at the ends. The plane is a flat picture, so at each end it
 // narrows to no less than TURN_MIN of its width and fades through the flip: it is never seen as a squashed sliver.
-// A rAF lerp makes it glide after the finger.
+// The page can never REST inside a turn: `angle()` holds the plane HOLD degrees short of each end, then sends it straight
+// to the far side, and the glide carries it round in a fraction of a second. A rAF lerp makes it glide after the finger.
 // Scrolling back flies it back. Hero.astro draws the resting pose from the same `pose()`, so nothing jumps when
 // this script arrives. Reduced motion or Save-Data: the plane simply rests.
 export const ORBIT = { cx: 50, cy: 50, rx: 47, ry: 13, tilt: -12, a0: 148 };   // per cent of the art's width, degrees
@@ -24,6 +25,14 @@ export const pose = (deg, o = ORBIT) => {
   const sc = 0.8 + 0.2 * Math.sin(t);                                            // 1 at the front, .6 at the back
   return { x: o.cx + lx * c - ly * s, y: o.cy + lx * s + ly * c, rot, sx: (right ? 1 : -1) * turn * sc, sy: sc, op, front: Math.sin(t) > 0 };
 };
+// Where the plane sits for a share of the hero scrolled (0 to 1). Never inside HOLD degrees of an end of the ring.
+const HOLD = 14;
+export const angle = (progress, o = ORBIT) => {
+  const raw = o.a0 - 360 * clamp(progress, 0, 1);
+  const tip = Math.atan(-(o.ry / o.rx) * Math.tan(o.tilt * Math.PI / 180)) * 180 / Math.PI;   // where the travel turns back
+  for (const end of [tip, tip + 180]) { const d = norm(raw - end); if (Math.abs(d) < HOLD) return raw - d + (d < 0 ? -HOLD : HOLD); }
+  return raw;
+};
 export const vars = p => `--px:${p.x.toFixed(3)};--py:${p.y.toFixed(3)};--pr:${p.rot.toFixed(2)}deg;--psx:${p.sx.toFixed(4)};--psy:${p.sy.toFixed(4)};--po:${p.op.toFixed(3)}`;
 
 if (typeof document !== 'undefined') {
@@ -33,7 +42,7 @@ if (typeof document !== 'undefined') {
   if (art && hero && !still) {
     let range = 1, cur = ORBIT.a0, raf = 0, last = 0;
     const measure = () => { const r = hero.getBoundingClientRect(); range = Math.max(360, r.bottom + scrollY - innerHeight * 0.2); };
-    const goal = () => ORBIT.a0 - 360 * clamp(scrollY / range, 0, 1);
+    const goal = () => angle(scrollY / range);
     const paint = () => {
       const p = pose(cur);
       for (const [k, v] of [['--px', p.x.toFixed(3)], ['--py', p.y.toFixed(3)], ['--pr', p.rot.toFixed(2) + 'deg'], ['--psx', p.sx.toFixed(4)], ['--psy', p.sy.toFixed(4)], ['--po', p.op.toFixed(3)]]) art.style.setProperty(k, v);
