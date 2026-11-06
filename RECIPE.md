@@ -1,10 +1,10 @@
 # RECIPE: Rathnaweera Foreign Employment Agency home page (staging)
 Kind: website
 Live: https://businessboosterlk.github.io/rathnaweera-website/ (staging preview, noindex, public repo https://github.com/businessboosterlk/rathnaweera-website, published 5 Nov 2026 on Thulaib's yes, bb_pending 1318)
-Live commit: 5095826
+Live commit: 7df87d2
 Ignore: dist, node_modules, .astro, package-lock.json
 Watch: ~/Downloads/RATHNAWEERA-BRAND/Rathnaweera-Logo.png
-Last verified: 2026-11-05, by chat RATHNAWEERA WEBSITE 7 (live gates on the published address)
+Last verified: 2026-11-06, by chats RATHNAWEERA WEBSITE 7 and 8 (live gates on the published address)
 
 Checked by `python3 ~/bb-systems/qa/recipe-check.py ~/bb-websites/rathnaweera-website`. A fresh chat rebuilds from
 this file alone.
@@ -16,6 +16,9 @@ preview as plain and without motion. Look: white led, Libre Caslon Text headings
 #A80000, gold #C8982A, white and warm white #F7F5EF. One component per section in `src/components`, each with its own
 stylesheet in `src/styles` and its own small script in `src/scripts`. No animation library: CSS, the Web Animations
 API and hand written modules only, 17 KB of script in all.
+The plane is a flat 2D picture (`src/assets/img/hero-plane.webp`), not a 3D model: `src/scripts/hero.js` slides it
+round a ring, in front of the globe on the near half, smaller and behind it on the far half. At each end of the ring
+it narrows to no less than half its width and fades through the flip and it can never rest inside a turn (6 Nov 2026).
 The page, top to bottom: a hero with a globe that turns by itself and a plane that flies its orbit only when the
 visitor scrolls; a navy strip of four facts whose words are measured to the centre of their boxes; a moving band of
 the six countries; six sample jobs with country chips; a world map where pressing a country lifts its picture card
@@ -96,7 +99,22 @@ plate on screen shows the file name to send" needed at least one plate; no plate
 in plate left on screen shows the file name to send". Two new checks prove what took the plates' place: check-site
 "every picture on the page loads" (25 of 25, phone and desk) and check-dist "every scene picture is on the page"
 (fails on any plate), with a second new check-dist line for the six focus points.
-Counts on 5 Nov 2026 at 5095826 (pictures in), local preview: check-dist 24 of 24, check-site 244 of 244 (phone 101
+Counts on 6 Nov 2026 at 7df87d2 (plane turn), local preview: check-dist 26 of 26 (two new checks: "the plane is never
+drawn thinner than half its width and fades through both turns" and "wherever the page stops the plane is whole",
+weakest 1.00 and narrowest 0.59), check-site 244 of 244 (check-site was not changed), stack PASS astro, hand-svg PASS,
+device-views PASS, speed PASS 12 of 12, house_style OK on the rendered text. At every stopping point on phone 390 and
+desk 1440 the plane reads opacity 1.00 in front or 0.90 behind and at least 0.59 of its width; the turn is gone and
+back within 170 ms. On the iPhone 17 Pro Simulator the first screen is clear of the status bar and the plane is whole
+when stopped at the right hand turn.
+Live on 6 Nov 2026 at 7df87d2 (the published index.html and 8 scripts carry the same hash as this build): check-site PASS
+244 of 244, speed PASS 12 of 12 (slow 4G phone, first paint and main content 737 ms, page 255 KB, JS 14 KB, layout
+shift 0.000, biggest image 100 KB, reload 291 ms and 0 KB, worst tap 80 ms), device-views PASS (phone heading middle
+201.0 of 201, desk brand and heading at x=49), robots meta noindex, no tel or wa.me link. The first live check-site
+run on this build read 243 of 244 (phone Help to #ready, heading top -4279) while the Mac's network slept mid run
+(speed could not run at all, net::ERR_NETWORK_IO_SUSPENDED); rerun alone with the Mac kept awake by `caffeinate -is`
+the unchanged check passed 244 of 244. By design the plane is hidden behind the globe for about 21 per cent of the
+flight (55 to 77 per cent of the way round); keeping that or not is Thulaib's call.
+Earlier counts, on 5 Nov 2026 at 5095826 (pictures in), local preview: check-dist 24 of 24, check-site 244 of 244 (phone 101
 touchpoints found, 97 pressed, 4 external checked; desk 102 found, 97 pressed, 5 external checked), stack PASS astro,
 hand-svg PASS, device-views PASS (phone heading middle 201.0 of 201, desk brand and heading at x=49), speed PASS 12
 of 12 (reload main content 412 ms, worst tap 96 ms), house_style OK on the rendered text. The first check-site run
@@ -146,6 +164,8 @@ and robots.txt. The agency holds the hosting, the domain and any form service in
 - The NIC error reads with no comma before or | why: house_style fails a comma before or | held by: scripts/check-site.mjs#NIC number
 - The globe turns by itself all the time and stands still under reduced motion | why: Thulaib's review point 1, 5 Nov | held by: src/scripts/globe.js#prefers-reduced-motion
 - The plane flies its orbit ONLY when the visitor scrolls or swipes, never on a timer | why: Thulaib's review point 1 | held by: src/scripts/hero.js#moves ONLY when the visitor scrolls
+- The plane is a flat 2D picture so at each end of the ring it narrows to no less than half its width and fades through the flip (opacity from `--po`), never a squashed sliver | why: Thulaib asked on 6 Nov 2026 that the plane look good even at the end; before this it squashed to 16 per cent of its width at both turns | held by: scripts/check-dist.mjs#the plane is never drawn thinner than half its width
+- The plane can never REST inside a turn: `angle()` in hero.js holds it 14 degrees short of each end of the ring then sends it to the far side and the glide carries it round in about a fifth of a second | why: with the fade alone a visitor who stopped scrolling exactly at the turn was left looking at a ghost plane (seen on the iOS Simulator on 6 Nov 2026 at 6f5fcad) | held by: scripts/check-dist.mjs#wherever the page stops the plane is whole
 - Every section heading arrives word by word from behind a mask, the same move as the hero's first line | why: his review said plain and no motion; one reveal language for the whole page | held by: src/scripts/reveal.js#classList.add('split')
 - The hero word mask is padded past the letters on every side and pulled back by the same amount | why: clipAudit found the mask cutting 4 to 8px off the top of Caslon's box at four widths | held by: src/styles/hero.css#pulled back so the heading keeps its place
 - A gold line under the status strip fills as the page is read | why: motion that is also information; it still tracks under reduced motion | held by: src/scripts/motion.js#data-progress
