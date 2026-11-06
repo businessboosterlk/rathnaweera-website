@@ -113,7 +113,7 @@ shift 0.000, biggest image 100 KB, reload 291 ms and 0 KB, worst tap 80 ms), dev
 run on this build read 243 of 244 (phone Help to #ready, heading top -4279) while the Mac's network slept mid run
 (speed could not run at all, net::ERR_NETWORK_IO_SUSPENDED); rerun alone with the Mac kept awake by `caffeinate -is`
 the unchanged check passed 244 of 244. By design the plane is hidden behind the globe for about 21 per cent of the
-flight (55 to 77 per cent of the way round); keeping that or not is Thulaib's call.
+flight (55 to 77 per cent of the way round); Thulaib kept the full orbit on 6 Nov 2026 (bb_pending 1453).
 Earlier counts, on 5 Nov 2026 at 5095826 (pictures in), local preview: check-dist 24 of 24, check-site 244 of 244 (phone 101
 touchpoints found, 97 pressed, 4 external checked; desk 102 found, 97 pressed, 5 external checked), stack PASS astro,
 hand-svg PASS, device-views PASS (phone heading middle 201.0 of 201, desk brand and heading at x=49), speed PASS 12
@@ -166,6 +166,7 @@ and robots.txt. The agency holds the hosting, the domain and any form service in
 - The plane flies its orbit ONLY when the visitor scrolls or swipes, never on a timer | why: Thulaib's review point 1 | held by: src/scripts/hero.js#moves ONLY when the visitor scrolls
 - The plane is a flat 2D picture so at each end of the ring it narrows to no less than half its width and fades through the flip (opacity from `--po`), never a squashed sliver | why: Thulaib asked on 6 Nov 2026 that the plane look good even at the end; before this it squashed to 16 per cent of its width at both turns | held by: scripts/check-dist.mjs#the plane is never drawn thinner than half its width
 - The plane can never REST inside a turn: `angle()` in hero.js holds it 14 degrees short of each end of the ring then sends it to the far side and the glide carries it round in about a fifth of a second | why: with the fade alone a visitor who stopped scrolling exactly at the turn was left looking at a ghost plane (seen on the iOS Simulator on 6 Nov 2026 at 6f5fcad) | held by: scripts/check-dist.mjs#wherever the page stops the plane is whole
+- The plane keeps its full orbit and is hidden behind the globe for about a fifth of the flight (55 to 77 per cent of the way round) | why: Thulaib, 6 Nov 2026, "Keep full orbit" (bb_pending 1453); the other choice was the plane in front of the globe the whole time | held by: scripts/check-dist.mjs#angle(1) === ORBIT.a0 - 360
 - Every section heading arrives word by word from behind a mask, the same move as the hero's first line | why: his review said plain and no motion; one reveal language for the whole page | held by: src/scripts/reveal.js#classList.add('split')
 - The hero word mask is padded past the letters on every side and pulled back by the same amount | why: clipAudit found the mask cutting 4 to 8px off the top of Caslon's box at four widths | held by: src/styles/hero.css#pulled back so the heading keeps its place
 - A gold line under the status strip fills as the page is read | why: motion that is also information; it still tracks under reduced motion | held by: src/scripts/motion.js#data-progress
