@@ -55,8 +55,8 @@ html:not(.js) .hero-tex,.no-gl .hero-tex{background-image:var(--earth);animation
 /* The plane. Its pose comes from custom properties (Hero.astro writes the resting one, hero.js the flight). */
 .hero-plane{position:absolute;left:0;top:0;z-index:5;width:21%;height:auto;pointer-events:none;will-change:transform;
   transform:translate(calc(var(--px) * 1cqw - 50%),calc(var(--py) * 1cqw - 50%)) rotate(var(--pr)) scale(var(--psx),var(--psy));
-  filter:drop-shadow(0 10px 12px rgba(0,26,61,.18))}
-.is-back .hero-plane{z-index:2;opacity:.9}
+  opacity:var(--po,1);filter:drop-shadow(0 10px 12px rgba(0,26,61,.18))}
+.is-back .hero-plane{z-index:2;opacity:calc(var(--po,1) * .9)}
 
 @media (min-width:760px){
   .hero-actions{display:flex;flex-wrap:wrap;width:auto;gap:14px}

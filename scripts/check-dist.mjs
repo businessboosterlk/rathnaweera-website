@@ -4,6 +4,7 @@
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { createHash } from 'node:crypto';
+import { ORBIT, pose } from '../src/scripts/hero.js';
 
 const D = 'dist', fails = [], passes = [];
 const ok = (name, cond, why = '') => (cond ? passes : fails).push(name + (cond || !why ? '' : '  ' + why));
@@ -35,6 +36,14 @@ ok('gold dashed placeholders kept (' + ph + ')', ph >= 40);
 const shots = (html.match(/<img[^>]*class="shot[ "]/g) || []).length, waits = (html.match(/class="shot shot-wait/g) || []).length, foci = (html.match(/style="object-position:/g) || []).length;
 ok('every scene picture is on the page (' + shots + ' pictures, ' + waits + ' stand in plates)', shots >= 24 && waits === 0);
 ok('six pictures keep their focus point (' + foci + ')', foci === 6);
+/* the plane is a flat picture: all round the ring it is never drawn squashed thinner than half its width, it fades
+   out through each of the two flips and it rests at full strength (read off the same pose() the page flies) */
+{
+  let thin = 9, gone = 0, was = false;
+  for (let d = 0; d < 360; d += 0.25) { const p = pose(d), w = Math.abs(p.sx / p.sy); if (p.op > 0.02) thin = Math.min(thin, w); const g = p.op < 0.02; if (g && !was) gone++; was = g; }
+  const rest = pose(ORBIT.a0);
+  ok(`the plane is never drawn thinner than half its width and fades through both turns (${thin.toFixed(2)}, ${gone} fades)`, thin >= 0.5 && gone === 2 && rest.op === 1 && /--po:1\.000/.test(html), JSON.stringify({ thin, gone, rest: rest.op }));
+}
 ok('Stage 2 is not on the page', !/Departures and stories|Stage 2/.test(html));
 ok('404, sitemap and llms.txt built', ['404.html', 'sitemap.xml', 'llms.txt'].every(f => existsSync(join(D, f))));
 
